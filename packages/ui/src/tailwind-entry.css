@@ -1,0 +1,304 @@
+@import "./font.css";
+@import "tailwindcss" prefix(ui);
+
+:root {
+  /* Brand colors (your palette) */
+  --ui-primary: 253 92 38; /* #FD5C26 */
+  --ui-secondary: 253 199 38; /* #FDC726 */
+  --ui-accent: 253 38 92; /* #FD265C */
+
+  /* Semantic neutrals */
+  --ui-bg: 255 247 237; /* warm off-white */
+  --ui-surface: 255 255 255; /* card/panel */
+  --ui-fg: 15 23 42; /* main text */
+  --ui-fg-muted: 71 85 105; /* secondary text */
+  --ui-border: 226 232 240; /* borders/dividers */
+
+  /* Interaction */
+  --ui-ring: var(--ui-primary);
+  --ui-ring-alpha: 0.35;
+  --ui-outline-alpha: 0.12;
+
+  /* Rebirth bloom intensity */
+  --ui-bloom-alpha: 0.1;
+  --ui-bloom-alpha-hover: 0.14;
+
+  /* Radius */
+  --ui-radius-sm: 6px;
+  --ui-radius-md: 12px;
+  --ui-radius-lg: 20px;
+
+  /* Motion */
+  --ui-fast: 120ms;
+  --ui-normal: 180ms;
+  --ui-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Spacing (rem-based) */
+  --ui-1: 0.25rem;
+  --ui-2: 0.5rem;
+  --ui-3: 0.75rem;
+  --ui-4: 1rem;
+  --ui-6: 1.5rem;
+  --ui-8: 2rem;
+  --ui-12: 3rem;
+  --ui-16: 4rem;
+
+  /* Typography: families */
+  --ui-font-heading:
+    "Satoshi", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    sans-serif;
+  --ui-font-body:
+    "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    sans-serif;
+
+  /* Typography: weights */
+  --ui-weight-regular: 400;
+  --ui-weight-medium: 500;
+  --ui-weight-semibold: 600;
+
+  /* Typography: leading & tracking */
+  --ui-leading-body: 1.6;
+  --ui-leading-body-sm: 1.55;
+  --ui-leading-caption: 1.4;
+  --ui-leading-heading-tight: 1.2;
+  --ui-leading-heading: 1.3;
+
+  --ui-tracking-tight: -0.01em;
+  --ui-tracking-normal: 0em;
+  --ui-tracking-caption: 0.02em;
+
+  /* Typography: body sizes (stable) */
+  --ui-text-body-lg: 1.25rem; /* 20 */
+  --ui-text-body-md: 1rem; /* 16 */
+  --ui-text-body-sm: 0.8rem; /* 12.8 */
+  --ui-text-caption: 0.64rem; /* 10.24 */
+
+  /* Typography: headings (mobile compressed) */
+  --ui-text-h1: 2.441rem;
+  --ui-text-h2: 1.953rem;
+  --ui-text-h3: 1.563rem;
+  --ui-text-h4: 1.25rem;
+  --ui-text-h5: 1.25rem;
+  --ui-text-h6: 1rem;
+
+  /* Labels */
+  --ui-text-label-md: 0.875rem; /* 14 */
+  --ui-text-label-sm: 0.8rem; /* 12.8 */
+  --ui-text-label-xs: 0.75rem; /* 12 */
+  --ui-leading-label: 1.4;
+  --ui-tracking-label-md: 0.01em;
+  --ui-tracking-label-sm: 0.02em;
+  --ui-tracking-label-xs: 0.04em;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  :root {
+    --ui-text-h1: 3.052rem;
+    --ui-text-h2: 2.441rem;
+    --ui-text-h3: 1.953rem;
+    --ui-text-h4: 1.563rem;
+    --ui-text-h5: 1.25rem;
+    --ui-text-h6: 1.25rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  :root {
+    --ui-text-h1: 3.815rem;
+    --ui-text-h2: 3.052rem;
+    --ui-text-h3: 2.441rem;
+    --ui-text-h4: 1.953rem;
+    --ui-text-h5: 1.563rem;
+    --ui-text-h6: 1.25rem;
+  }
+}
+
+/* Dark mode theme (Phoenix Ash) */
+[data-ui-theme="dark"] {
+  --ui-bg: 2 6 23;
+  --ui-surface: 15 23 42;
+  --ui-fg: 248 250 252;
+  --ui-fg-muted: 148 163 184;
+  --ui-border: 51 65 85;
+
+  /* bloom a hair stronger in dark */
+  --ui-bloom-alpha: 0.14;
+  --ui-bloom-alpha-hover: 0.18;
+
+  /* outline + ring slightly stronger */
+  --ui-outline-alpha: 0.18;
+  --ui-ring-alpha: 0.45;
+}
+
+/* -----------------------------
+   2) Tailwind v4 token mapping
+   (creates utilities like bg-ui-bg)
+   ----------------------------- */
+
+@theme inline {
+  /* Colors */
+  --color-ui-primary: rgb(var(--ui-primary));
+  --color-ui-secondary: rgb(var(--ui-secondary));
+  --color-ui-accent: rgb(var(--ui-accent));
+
+  --color-ui-bg: rgb(var(--ui-bg));
+  --color-ui-surface: rgb(var(--ui-surface));
+  --color-ui-fg: rgb(var(--ui-fg));
+  --color-ui-fg-muted: rgb(var(--ui-fg-muted));
+  --color-ui-border: rgb(var(--ui-border));
+
+  /* Fonts */
+  --font-heading: var(--ui-font-heading);
+  --font-body: var(--ui-font-body);
+
+  /* Radii */
+  --radius-ui-sm: var(--ui-radius-sm);
+  --radius-ui-md: var(--ui-radius-md);
+  --radius-ui-lg: var(--ui-radius-lg);
+
+  /* Spacing */
+  --spacing-ui-1: var(--ui-1);
+  --spacing-ui-2: var(--ui-2);
+  --spacing-ui-3: var(--ui-3);
+  --spacing-ui-4: var(--ui-4);
+  --spacing-ui-6: var(--ui-6);
+  --spacing-ui-8: var(--ui-8);
+  --spacing-ui-12: var(--ui-12);
+  --spacing-ui-16: var(--ui-16);
+
+  /* Typography sizes */
+  --text-h1: var(--ui-text-h1);
+  --text-h2: var(--ui-text-h2);
+  --text-h3: var(--ui-text-h3);
+  --text-h4: var(--ui-text-h4);
+  --text-h5: var(--ui-text-h5);
+  --text-h6: var(--ui-text-h6);
+
+  --text-body-lg: var(--ui-text-body-lg);
+  --text-body-md: var(--ui-text-body-md);
+  --text-body-sm: var(--ui-text-body-sm);
+  --text-caption: var(--ui-text-caption);
+
+  --text-label-md: var(--ui-text-label-md);
+  --text-label-sm: var(--ui-text-label-sm);
+  --text-label-xs: var(--ui-text-label-xs);
+}
+
+@utility tracking-tight {
+  letter-spacing: var(--ui-tracking-tight);
+}
+
+@utility tracking-normal {
+  letter-spacing: var(--ui-tracking-normal);
+}
+
+@utility tracking-caption {
+  letter-spacing: var(--ui-tracking-caption);
+}
+
+@utility leading-body {
+  line-height: var(--ui-leading-body);
+}
+
+@utility leading-body-sm {
+  line-height: var(--ui-leading-body-sm);
+}
+
+@utility leading-caption {
+  line-height: var(--ui-leading-caption);
+}
+
+@utility leading-heading-tight {
+  line-height: var(--ui-leading-heading-tight);
+}
+
+@utility leading-heading {
+  line-height: var(--ui-leading-heading);
+}
+
+/* -----------------------------
+   3) Phoenix UI component classes
+   (reusable design patterns)
+   ----------------------------- */
+
+@layer components {
+  .phx-surface {
+    background-color: rgb(var(--ui-surface));
+    border-radius: var(--ui-radius-md);
+  }
+
+  /* Rebirth: blended gradients (Primary → Secondary) */
+  .phx-rebirth {
+    background-image:
+      radial-gradient(
+        120% 140% at 10% 0%,
+        rgb(var(--ui-secondary) / var(--ui-bloom-alpha)),
+        transparent 60%
+      ),
+      linear-gradient(
+        135deg,
+        rgb(var(--ui-primary) / calc(var(--ui-bloom-alpha) * 0.65)),
+        transparent 55%
+      );
+  }
+
+  .phx-interactive {
+    outline: 1px solid rgb(var(--ui-ring) / 0);
+    outline-offset: 0px;
+    transition:
+      outline-color var(--ui-fast) var(--ui-ease),
+      transform var(--ui-fast) var(--ui-ease),
+      background-image var(--ui-normal) var(--ui-ease);
+  }
+
+  .phx-interactive:hover {
+    outline-color: rgb(var(--ui-ring) / var(--ui-outline-alpha));
+    transform: translateY(-1px);
+  }
+
+  .phx-interactive:focus-visible {
+    outline-color: rgb(var(--ui-ring) / var(--ui-ring-alpha));
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+
+  /* Typography helpers */
+  .phx-heading {
+    font-family: var(--ui-font-heading);
+    font-weight: var(--ui-weight-semibold);
+    letter-spacing: var(--ui-tracking-tight);
+  }
+
+  .phx-body {
+    font-family: var(--ui-font-body);
+    font-weight: var(--ui-weight-regular);
+    line-height: var(--ui-leading-body);
+  }
+
+  .phx-label-md {
+    font-family: var(--ui-font-body);
+    font-weight: var(--ui-weight-medium);
+    font-size: var(--ui-text-label-md);
+    line-height: var(--ui-leading-label);
+    letter-spacing: var(--ui-tracking-label-md);
+  }
+
+  .phx-label-sm {
+    font-family: var(--ui-font-body);
+    font-weight: var(--ui-weight-medium);
+    font-size: var(--ui-text-label-sm);
+    line-height: var(--ui-leading-label);
+    letter-spacing: var(--ui-tracking-label-sm);
+  }
+
+  .phx-label-xs {
+    font-family: var(--ui-font-body);
+    font-weight: var(--ui-weight-medium);
+    font-size: var(--ui-text-label-xs);
+    line-height: 1.35;
+    letter-spacing: var(--ui-tracking-label-xs);
+    text-transform: uppercase; /* optional: remove if you don’t want */
+  }
+}
