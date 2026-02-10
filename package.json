@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/devmd1997/phoenix-ui.git"
   },
+  "packageManager": "pnpm@10.0.0",
   "keywords": [],
   "author": "Devon Adams",
   "license": "ISC",
@@ -19,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/devmd1997/phoenix-ui/issues"
   },
-  "homepage": "https://github.com/devmd1997/phoenix-ui#readme"
+  "homepage": "https://github.com/devmd1997/phoenix-ui#readme",
+  "devDependencies": {
+    "turbo": "^2.8.3"
+  }
 }
