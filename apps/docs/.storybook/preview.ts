@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
+import "@phoenix-ui/ui/styles.css"
 
 const preview: Preview = {
   parameters: {

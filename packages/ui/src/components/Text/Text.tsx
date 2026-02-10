@@ -113,7 +113,9 @@ function defaultTagForVariant(v?: TextVariant): React.ElementType {
       return "h5";
     case "h6":
       return "h6";
-    case v?.startsWith("label"):
+    case "label-md":
+    case "label-sm":
+    case "label-xs":
       return "label";
     case "caption":
       return "caption";
