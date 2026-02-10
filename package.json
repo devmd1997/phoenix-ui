@@ -1,0 +1,23 @@
+{
+  "name": "phoenix-ui",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "tooling/*"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devmd1997/phoenix-ui.git"
+  },
+  "keywords": [],
+  "author": "Devon Adams",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/devmd1997/phoenix-ui/issues"
+  },
+  "homepage": "https://github.com/devmd1997/phoenix-ui#readme"
+}
