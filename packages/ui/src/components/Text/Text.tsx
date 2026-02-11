@@ -25,13 +25,13 @@ const textVariants = cva("", {
     },
     tone: {
       default: "ui:text-ui-fg",
-      muted: "ui:text-ui-fg",
+      muted: "ui:text-ui-fg-muted",
       primary: "ui:text-ui-primary",
       secondary: "ui:text-ui-secondary",
       success: "ui:text-ui-secondary",
       accent: "ui:text-ui-accent",
       warning: "ui:text-ui-accent",
-      invserse: "ui:text-ui-bg",
+      inverse: "ui:text-ui-bg",
     },
     truncate: {
       true: "ui:truncate",
@@ -60,7 +60,7 @@ type TextTag =
   | "span"
   | "div"
   | "label"
-  | "caption"
+  | "span"
   | "strong"
   | "em"
   | "h1"
@@ -71,8 +71,7 @@ type TextTag =
   | "h6";
 
 export interface TextProps
-  extends React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof textVariants> {
+  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
   as?: TextTag;
 }
 
@@ -118,7 +117,7 @@ function defaultTagForVariant(v?: TextVariant): React.ElementType {
     case "label-xs":
       return "label";
     case "caption":
-      return "caption";
+      return "span";
     default:
       return "p";
   }

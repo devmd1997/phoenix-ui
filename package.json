@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/devmd1997/phoenix-ui.git"
   },
+  "scripts": {
+    "docs:gen": "tsx tooling/docs-gen/src/index.ts"
+  },
   "packageManager": "pnpm@10.0.0",
   "keywords": [],
   "author": "Devon Adams",
@@ -22,6 +25,7 @@
   },
   "homepage": "https://github.com/devmd1997/phoenix-ui#readme",
   "devDependencies": {
+    "tsx": "^4.21.0",
     "turbo": "^2.8.3"
   }
 }
