@@ -1,0 +1,1 @@
+export type {Breakpoint, ResponsiveProp} from './breakpoint.types'

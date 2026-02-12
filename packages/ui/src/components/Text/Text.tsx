@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../utlis/cn";
+import type { Breakpoint, ResponsiveProp } from "../../types";
+import { responsiveClass } from "../../utlis/responsive";
 
 const textVariants = cva("", {
   variants: {
@@ -73,8 +75,20 @@ type TextTag =
 export interface TextProps
   extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
   as?: TextTag;
+  responsive?: ResponsiveProp<VariantProps<typeof textVariants>>;
 }
 
+/**
+ * Text
+ * Renders semantic typography primitives with Phoenix UI tokens.
+ *
+ * Behavior:
+ * - Uses `variant` and `tone` to select base typography classes.
+ * - Chooses a semantic default HTML tag from the selected `variant`.
+ * - Allows explicit tag override through `as`.
+ * - Accepts optional responsive overrides per breakpoint (`sm`/`md`/`lg`) for
+ *   `variant`, `tone`, `truncate`, and `uppercase`.
+ */
 export function Text({
   as,
   variant = "body-md",
@@ -82,20 +96,35 @@ export function Text({
   uppercase,
   truncate,
   className,
+  responsive,
   ...props
 }: TextProps) {
   const v = variant ?? "body-md";
   const Tag = (as ?? defaultTagForVariant(v)) as React.ElementType;
+  const classes = [];
 
-  return (
-    <Tag
-      className={cn(
-        textVariants({ variant, tone, truncate, uppercase }),
-        className,
-      )}
-      {...props}
-    />
-  );
+  classes.push(textVariants({ variant: v, tone, truncate, uppercase }));
+  if (responsive) {
+    const responsiveMap = (Object.keys(responsive) as Breakpoint[]).reduce(
+      (acc, bp) => {
+        const spec = responsive[bp];
+        const responsiveVariants = textVariants({
+          variant: spec?.variant,
+          tone: spec?.tone,
+          truncate: spec?.truncate,
+          uppercase: spec?.uppercase,
+        });
+        const responsiveClassArr = responsiveVariants.split(" ");
+        acc[bp] = responsiveClassArr;
+        return acc;
+      },
+      {} as ResponsiveProp<string[]>,
+    );
+    classes.push(responsiveClass(responsiveMap));
+  }
+
+  const styles = classes.join(" ");
+  return <Tag className={cn(styles, className)} {...props} />;
 }
 
 function defaultTagForVariant(v?: TextVariant): React.ElementType {
