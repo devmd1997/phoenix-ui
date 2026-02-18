@@ -2,6 +2,7 @@ import type { AtLeastOne } from "../utlis/helpers";
 import type { Breakpoint } from "./breakpoint.types";
 
 export type Space = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+export type Direction = 'horizontal' | 'vertical';
 
 export const SPACE_TO_NUM: Record<Exclude<Space, "none">, "1"|"2"|"3"|"4"|"6"|"8"|"12"|"16"> = {
   xs: "1",
@@ -22,6 +23,12 @@ export type AxisSpace = | Space | {
     r?: Space;
     b?: Space;
     l?: Space;
+}
+
+export type GapSpace = | Space | {
+  all?: Space;
+  x?: Space;
+  y?: Space;
 }
 
 export type SpacingSpec = {
@@ -81,4 +88,7 @@ export const PR: Record<Space, string> = { none:"ui:pr-0", xs:"ui:pr-1", sm:"ui:
 export const PB: Record<Space, string> = { none:"ui:pb-0", xs:"ui:pb-1", sm:"ui:pb-2", md:"ui:pb-4", lg:"ui:pb-6", xl:"ui:pb-8", "2xl":"ui:pb-12", "3xl": "ui:pb-16"};
 export const PL: Record<Space, string> = { none:"ui:pl-0", xs:"ui:pl-1", sm:"ui:pl-2", md:"ui:pl-4", lg:"ui:pl-6", xl:"ui:pl-8", "2xl":"ui:pl-12", "3xl": "ui:pl-16"};
 
+export const GAP_ALL: Record<Space, string> = { none:"ui:gap-0", xs:"ui:gap-1", sm:"ui:gap-2", md:"ui:gap-4", lg:"ui:gap-6", xl:"ui:gap-8", "2xl":"ui:gap-12", "3xl": "ui:gap-16"};
+export const GAPX: Record<Space, string> = { none:"ui:gapx-0", xs:"ui:gapx-1", sm:"ui:gapx-2", md:"ui:gapx-4", lg:"ui:gapx-6", xl:"ui:gapx-8", "2xl":"ui:gapx-12", "3xl": "ui:gapx-16"};
+export const GAPY: Record<Space, string> = { none:"ui:gapy-0", xs:"ui:gapy-1", sm:"ui:gapy-2", md:"ui:gapy-4", lg:"ui:gapy-6", xl:"ui:gapy-8", "2xl":"ui:gapy-12", "3xl": "ui:gapy-16"};
 

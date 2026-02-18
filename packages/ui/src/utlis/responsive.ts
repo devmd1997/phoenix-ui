@@ -1,5 +1,5 @@
 import type { Breakpoint, ResponsiveProp } from "../types/breakpoint.types";
-import { M_ALL, MB, ML, MR, MT, MX, MY, P_ALL, PB, PL, PR, PT, PX, PY, type AxisSpace } from "../types/spacing.types";
+import { GAP_ALL, GAPX, GAPY, M_ALL, MB, ML, MR, MT, MX, MY, P_ALL, PB, PL, PR, PT, PX, PY, type AxisSpace, type GapSpace, type SpacingSpec } from "../types/spacing.types";
 
 const BP_Prefix: Record<Breakpoint, string> = {
     sm: "sm:",
@@ -58,4 +58,37 @@ export function axisSpaceToClasses(
   if (value.l) out.push(pre + (kind === "m" ? ML[value.l] : PL[value.l]));
 
   return out.filter(Boolean);
+}
+
+export function gapSpaceToClasses(value?: GapSpace, bp?: Breakpoint) {
+  if (!value) return "";
+  const pre = bp ? BP_Prefix[bp] : '';
+
+  if (typeof value === "string") {
+    const cls = GAP_ALL[value];
+    return cls ? [pre + cls] : [];
+  }
+
+  const out: string[] = [];
+  const all = value.all;
+  if (all) {
+    out.push(pre + GAP_ALL[all]);
+  }
+
+  if (value.x) out.push(pre + GAPX[value.x]);
+  if (value.y) out.push(pre + GAPY[value.y]);
+
+  return out.filter(Boolean);
+}
+
+export function spacingToClasses(value?: SpacingSpec, bp?: Breakpoint) {
+  if (!value) return "";
+  const classes: string[] = [];
+  classes.push(...axisSpaceToClasses("m", value.m, bp));
+  classes.push(...axisSpaceToClasses("p", value.p, bp));
+  return classes.join(" ");
+}
+
+export function getClassArrayFromVariants(classes: string) {
+  return classes.split(" ").filter(Boolean);
 }

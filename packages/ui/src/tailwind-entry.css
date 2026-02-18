@@ -4,15 +4,21 @@
 :root {
   /* Brand colors (your palette) */
   --ui-primary: 253 92 38; /* #FD5C26 */
+  --ui-pramry-400: 251 128 76; /* #FD804C */
+  --ui-primary-hover: 206 0 0; /* #CE0000 */
   --ui-secondary: 253 199 38; /* #FDC726 */
-  --ui-accent: 253 38 92; /* #FD265C */
+  --ui-secondary-hover: 154 93 0; /* #9A5D00 */
+  --ui-accent: 92 38 253; /* #5C26FD */
 
   /* Semantic neutrals */
   --ui-bg: 255 247 237; /* warm off-white */
   --ui-surface: 255 255 255; /* card/panel */
+  --ui-button-secondary: 47 62 81; /* button secondary color */
   --ui-fg: 15 23 42; /* main text */
+  --ui-fg-surface: 237 238 245; /* text on a colored background */
   --ui-fg-muted: 71 85 105; /* secondary text */
   --ui-border: 226 232 240; /* borders/dividers */
+  --ui-disabled: 219 221 233; /* disabled elements */
 
   /* Interaction */
   --ui-ring: var(--ui-primary);
@@ -27,6 +33,9 @@
   --ui-radius-sm: 6px;
   --ui-radius-md: 12px;
   --ui-radius-lg: 20px;
+  --ui-radius-xl: 32px;
+  --ui-radius-2xl: 48px;
+  --ui-radius-3xl: 64px;
 
   /* Motion */
   --ui-fast: 120ms;
@@ -66,6 +75,7 @@
   --ui-tracking-tight: -0.01em;
   --ui-tracking-normal: 0em;
   --ui-tracking-caption: 0.02em;
+  --ui-tracking-button: 0.05em;
 
   /* Typography: body sizes (stable) */
   --ui-text-body-lg: 1.25rem; /* 20 */
@@ -82,6 +92,7 @@
   --ui-text-h6: 1rem;
 
   /* Labels */
+  --ui-text-label-cta: 1rem; /* 16 */
   --ui-text-label-md: 0.875rem; /* 14 */
   --ui-text-label-sm: 0.8rem; /* 12.8 */
   --ui-text-label-xs: 0.75rem; /* 12 */
@@ -140,14 +151,19 @@
 @theme inline {
   /* Colors */
   --color-ui-primary: rgb(var(--ui-primary));
+  --color-ui-primary-400: rgb(var(--ui-pramry-400));
   --color-ui-secondary: rgb(var(--ui-secondary));
+  --color-ui-secondary-hover: rgb(var(--ui-secondary-hover));
   --color-ui-accent: rgb(var(--ui-accent));
 
   --color-ui-bg: rgb(var(--ui-bg));
   --color-ui-surface: rgb(var(--ui-surface));
+  --color-ui-button-secondary: rgb(var(--ui-button-secondary));
   --color-ui-fg: rgb(var(--ui-fg));
+  --color-ui-fg-surface: rgb(var(--ui-fg-surface));
   --color-ui-fg-muted: rgb(var(--ui-fg-muted));
   --color-ui-border: rgb(var(--ui-border));
+  --color-ui-disabled: rgb(var(--ui-disabled));
 
   /* Fonts */
   --font-heading: var(--ui-font-heading);
@@ -181,9 +197,20 @@
   --text-body-sm: var(--ui-text-body-sm);
   --text-caption: var(--ui-text-caption);
 
+  --text-label-cta: var(--ui-text-label-cta);
   --text-label-md: var(--ui-text-label-md);
   --text-label-sm: var(--ui-text-label-sm);
   --text-label-xs: var(--ui-text-label-xs);
+
+  --shadow-ring: 0 0 18px 6px rgba(245, 120, 66, 0.2);
+}
+
+@utility bg-hover {
+  filter: brightness(120%);
+}
+
+@utility bg-hover-darker {
+  filter: brightness(80%);
 }
 
 @utility tracking-tight {
@@ -196,6 +223,10 @@
 
 @utility tracking-caption {
   letter-spacing: var(--ui-tracking-caption);
+}
+
+@utility tracking-button {
+  letter-spacing: var(--ui-tracking-button);
 }
 
 @utility leading-body {
@@ -216,6 +247,21 @@
 
 @utility leading-heading {
   line-height: var(--ui-leading-heading);
+}
+
+@utility icon-size-sm {
+  width: var(--ui-3);
+  height: var(--ui-3);
+}
+
+@utility icon-size-md {
+  width: var(--ui--4);
+  height: var(--ui--4);
+}
+
+@utility icon-size-lg {
+  width: var(--ui-6);
+  height: var(--ui-6);
 }
 
 /* -----------------------------
@@ -300,5 +346,71 @@
     line-height: 1.35;
     letter-spacing: var(--ui-tracking-label-xs);
     text-transform: uppercase; /* optional: remove if you don’t want */
+  }
+
+  .phx-cta-ghost {
+    position: relative;
+    isolation: isolate;
+    background-color: transparent;
+    color: transparent; /* fallback */
+  }
+
+  /* gradient text */
+  @supports (-webkit-background-clip: text) {
+    .phx-cta-ghost:not(:hover) {
+      background-image: linear-gradient(
+        to right,
+        rgb(var(--ui-accent)),
+        rgb(var(--ui-primary)),
+        rgb(var(--ui-secondary))
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .phx-cta-ghost:hover {
+      color: white;
+      --webkit-text-fill-color: white;
+      background-clip: border-box;
+      --webkit-background-clip: border-box;
+      background:
+        linear-gradient(
+            to right,
+            rgb(var(--ui-accent)),
+            rgb(var(--ui-primary)),
+            rgb(var(--ui-secondary))
+          )
+          padding-box,
+        linear-gradient(
+            to right,
+            rgb(var(--ui-accent)),
+            rgb(var(--ui-primary)),
+            rgb(var(--ui-secondary))
+          )
+          border-box;
+    }
+  }
+
+  /* gradient border ring */
+  .phx-cta-ghost::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 4px;
+    background: linear-gradient(
+      to right,
+      rgb(var(--ui-accent)),
+      rgb(var(--ui-primary)),
+      rgb(var(--ui-secondary))
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
   }
 }

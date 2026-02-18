@@ -21,13 +21,18 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["dist/*"],
-      "": ["dist/index.d.ts"]
+      "*": [
+        "dist/*"
+      ],
+      "": [
+        "dist/index.d.ts"
+      ]
     }
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && npm run build:css",
+    "build:watch": "tsc -b --watch & vite build --watch & tailwindcss -i ./src/tailwind-entry.css -o ./dist/styles.css --watch",
     "build:css": "tailwindcss -m -i ./src/tailwind-entry.css -o ./dist/styles.css",
     "lint": "eslint .",
     "test": "vitest run",
@@ -47,6 +52,7 @@
     "base-ui-components": "^3.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "react-icons": "^5.5.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "vite-plugin-dts": "^4.5.4"

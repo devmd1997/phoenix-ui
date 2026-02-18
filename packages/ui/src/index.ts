@@ -1,3 +1,7 @@
 export {Text} from './components/Text/Text'
 export type {TextProps, TextVariant, TextTone} from './components/Text/Text'
 export * from './components/Spacing/'
+export * from './components/Stack/'
+export * from './components/Box/'
+export * from './components/Button'
+export * from './components/Icons'

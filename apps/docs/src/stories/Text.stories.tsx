@@ -25,7 +25,7 @@ const variants: TextVariant[] = [
 const toneVariants: TextTone[] = ["default", "muted", "primary", "secondary"];
 
 const meta: Meta<StoryArgs> = {
-  title: "Text/Text",
+  title: "Base/Text",
   component: Text,
   tags: ["autodocs"],
   argTypes: {
