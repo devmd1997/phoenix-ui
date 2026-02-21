@@ -6,3 +6,5 @@ export type {
   TextInputPrefixPreset,
   TextInputSuffixPreset,
 } from "./TextInput";
+export {TextArea} from './TextArea';
+export type {TextAreaProps, TextAreaSize, TextAreaState, TextAreaWidth, TextAreaBorder} from './TextArea'

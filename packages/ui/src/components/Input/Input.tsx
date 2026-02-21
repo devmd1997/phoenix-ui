@@ -138,7 +138,6 @@ function InputComponent({
     responsive,
     toVariantProps: (
       responsiveSize: VariantProps<typeof inputVariants>["size"],
-      _base,
     ) => ({ size: responsiveSize ?? undefined }),
   });
 

@@ -11,7 +11,7 @@
   --ui-accent: 92 38 253; /* #5C26FD */
 
   /* Semantic neutrals */
-  --ui-bg: 238 238 239; /* warm off-white */
+  --ui-bg: 248 248 253; /* warm off-white */
   --ui-surface: 255 255 255; /* card/panel */
   --ui-button-secondary: 47 62 81; /* button secondary color */
   --ui-fg: 15 23 42; /* main text */
@@ -271,6 +271,45 @@
   height: var(--ui-6);
 }
 
+@utility input-default {
+  border-color: rgb(var(--ui-border));
+  color: rgb(var(--ui-fg));
+  & :focus-within {
+    outline: 1px rgb(var(--ui-accent));
+  }
+
+  & ::placeholder {
+    color: var(--ui-fg-muted);
+  }
+}
+
+@utility input-error {
+  border-color: rgba(var(--ui-error), 80);
+  color: rbg(var(--ui-error));
+  & :focus-within {
+    outline: 1px rgb(var(--ui-error));
+  }
+}
+
+@utility input-success {
+  border-color: rgba((var(--ui-success)), 80);
+  color: rgb(var(--ui-success));
+  & :focus-within {
+    outline: 1px rbg(var(--ui-success));
+  }
+}
+
+@utility input-disabled {
+  border-color: rgb((var(--ui-border)));
+  color: var(--ui-fg-muted);
+}
+
+@utility input-readonly {
+  background-color: rgba((var(--ui-disabled)), 50);
+  border-color: rgb((var(--ui-border)));
+  color: var(--ui-fg);
+}
+
 /* -----------------------------
    3) Phoenix UI component classes
    (reusable design patterns)
@@ -356,7 +395,7 @@
   }
 
   .phx-input {
-    @apply ui:border-none ui:outline-none ui:px-4 ui:py-3 ui:flex-1;
+    @apply ui:border-none ui:outline-none ui:px-4 ui:py-3 ui:flex-1 ui:cursor-pointer;
   }
 
   .phx-cta-ghost {
