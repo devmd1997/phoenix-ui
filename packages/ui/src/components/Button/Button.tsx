@@ -7,7 +7,7 @@ import { Icon } from "../Icons";
 import type { IconVariant } from "../Icons/Icon";
 
 const buttonVariants = cva(
-  "ui:flex ui:justify-center ui:items-center ui:rounded-md ui:font-semibold ui:font-body ui:tracking-button ui:cursor-pointer",
+  "ui:flex ui:justify-center ui:items-center ui:font-semibold ui:font-body ui:tracking-button ui:cursor-pointer",
   {
     variants: {
       size: {
@@ -28,6 +28,10 @@ const buttonVariants = cva(
       disabled: {
         false: "",
         true: "ui:cursor-not-allowed ui:text-ui-fg-muted",
+      },
+      corners: {
+        default: "ui:rounded-md",
+        none: "ui:rounded-none",
       },
     },
     compoundVariants: [
@@ -95,6 +99,7 @@ const buttonVariants = cva(
       size: "md",
       variant: "secondary",
       type: "default",
+      corners: "default",
     },
   },
 );

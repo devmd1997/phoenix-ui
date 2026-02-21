@@ -11,7 +11,7 @@
   --ui-accent: 92 38 253; /* #5C26FD */
 
   /* Semantic neutrals */
-  --ui-bg: 255 247 237; /* warm off-white */
+  --ui-bg: 238 238 239; /* warm off-white */
   --ui-surface: 255 255 255; /* card/panel */
   --ui-button-secondary: 47 62 81; /* button secondary color */
   --ui-fg: 15 23 42; /* main text */
@@ -19,6 +19,9 @@
   --ui-fg-muted: 71 85 105; /* secondary text */
   --ui-border: 226 232 240; /* borders/dividers */
   --ui-disabled: 219 221 233; /* disabled elements */
+  --ui-error: 220 38 38; /* error */
+  --ui-success: 38 253 92; /* success */
+  --ui-info: 38 199 253; /* info */
 
   /* Interaction */
   --ui-ring: var(--ui-primary);
@@ -164,6 +167,10 @@
   --color-ui-fg-muted: rgb(var(--ui-fg-muted));
   --color-ui-border: rgb(var(--ui-border));
   --color-ui-disabled: rgb(var(--ui-disabled));
+
+  --color-ui-error: rgb(var(--ui-error));
+  --color-ui-success: rgb(var(--ui-success));
+  --color-ui-info: rgb(var(--ui-info));
 
   /* Fonts */
   --font-heading: var(--ui-font-heading);
@@ -346,6 +353,10 @@
     line-height: 1.35;
     letter-spacing: var(--ui-tracking-label-xs);
     text-transform: uppercase; /* optional: remove if you don’t want */
+  }
+
+  .phx-input {
+    @apply ui:border-none ui:outline-none ui:px-4 ui:py-3 ui:flex-1;
   }
 
   .phx-cta-ghost {
