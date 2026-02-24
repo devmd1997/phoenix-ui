@@ -8,3 +8,7 @@ export type {
 } from "./TextInput";
 export {TextArea} from './TextArea';
 export type {TextAreaProps, TextAreaSize, TextAreaState, TextAreaWidth, TextAreaBorder} from './TextArea'
+export {CheckBox} from './CheckBox';
+export type {CheckBoxProps, CheckBoxSize, CheckBoxState} from './CheckBox'
+export {RadioInput} from './RadioInput'
+export type {RadioInputProps, RadioInputSize} from './RadioInput'

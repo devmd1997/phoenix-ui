@@ -21,7 +21,7 @@ export interface StackProps extends StackSpecs, PropsWithChildren {
 const stackVariants = cva("", {
   variants: {
     direction: {
-      horizontal: "ui:flex-row",
+      horizontal: "ui:flex",
       vertical: "ui:flex-col",
     },
     crossAxisAlignment: {
@@ -38,10 +38,31 @@ const stackVariants = cva("", {
       spaceBetween: "ui:justify-between",
       spaceAround: "ui:justify-around",
     },
+    wrap: {
+      none: "ui:flex-nowrap",
+      wrap: "ui:flex-wrap",
+      reverse: "ui:flex-wrap-reverse",
+    },
+    reverse: {
+      true: "",
+      false: "",
+    },
   },
   defaultVariants: {
     direction: "horizontal",
   },
+  compoundVariants: [
+    {
+      direction: "horizontal",
+      reverse: true,
+      className: "ui:flex-row-reverse",
+    },
+    {
+      direction: "vertical",
+      reverse: true,
+      className: "ui:flex-col-reverse",
+    },
+  ],
 });
 
 export function Stack({ children, responsive, ...props }: StackProps) {

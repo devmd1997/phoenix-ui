@@ -275,7 +275,7 @@
   border-color: rgb(var(--ui-border));
   color: rgb(var(--ui-fg));
   & :focus-within {
-    outline: 1px rgb(var(--ui-accent));
+    outline: 1px rgb(var(--ui-primary));
   }
 
   & ::placeholder {
@@ -308,6 +308,12 @@
   background-color: rgba((var(--ui-disabled)), 50);
   border-color: rgb((var(--ui-border)));
   color: var(--ui-fg);
+}
+
+@custom-variant toggled {
+  &:where([data-toggled="true"], [data-toggled="true"] *) {
+    @slot;
+  }
 }
 
 /* -----------------------------
@@ -462,5 +468,17 @@
     mask-composite: exclude;
     pointer-events: none;
     z-index: -1;
+  }
+
+  .phx-radio-inner-circle {
+    @apply ui:col-start-1 ui:row-start-1 ui:w-2 ui:h-2 ui:rounded-full;
+  }
+
+  .phx-toggle-button {
+    @apply ui:float-left ui:rounded-full ui:bg-white ui:border ui:border-ui-border ui:group-disabled:bg-ui-disabled;
+    @apply ui:group-toggled:float-right;
+    transform: translateX(0);
+    transition: left 0.3s ease;
+    transform: translateY(0);
   }
 }
