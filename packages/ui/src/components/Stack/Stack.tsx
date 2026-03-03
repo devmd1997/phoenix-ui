@@ -8,6 +8,7 @@ import {
   responsiveClass,
   spacingToClasses,
 } from "../../utlis/responsive";
+import { cn } from "../../utlis/cn";
 
 type StackSpecs = VariantProps<typeof stackVariants> & {
   gap: Space;
@@ -18,10 +19,10 @@ export interface StackProps extends StackSpecs, PropsWithChildren {
   responsive?: ResponsiveProp<Partial<StackSpecs>>;
 }
 
-const stackVariants = cva("", {
+const stackVariants = cva("ui:flex", {
   variants: {
     direction: {
-      horizontal: "ui:flex",
+      horizontal: "ui:flex-row",
       vertical: "ui:flex-col",
     },
     crossAxisAlignment: {
@@ -47,9 +48,14 @@ const stackVariants = cva("", {
       true: "",
       false: "",
     },
+    width: {
+      full: "ui:w-full",
+      auto: "ui:w-auto",
+    },
   },
   defaultVariants: {
     direction: "horizontal",
+    width: "auto",
   },
   compoundVariants: [
     {
@@ -64,6 +70,10 @@ const stackVariants = cva("", {
     },
   ],
 });
+
+export type StackDirection = NonNullable<
+  VariantProps<typeof stackVariants>
+>["direction"];
 
 export function Stack({ children, responsive, ...props }: StackProps) {
   const { spacing: baseSpacing, gap: defaultGap, ...baseVariants } = props;
@@ -102,6 +112,6 @@ export function Stack({ children, responsive, ...props }: StackProps) {
     classes.push(responsiveClass(responsiveMap));
   }
 
-  const style = classes.join(" ");
+  const style = cn(classes);
   return <div className={style}>{children}</div>;
 }

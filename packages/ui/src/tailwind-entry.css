@@ -271,6 +271,24 @@
   height: var(--ui-6);
 }
 
+@utility input-width-sm {
+  min-width: calc(50 * var(--ui-1));
+  padding-block: calc(1.5 * var(--ui-1));
+  font-size: var(--ui-text-label-xs);
+}
+
+@utility input-width-md {
+  min-width: calc(75 * var(--ui-1));
+  padding-block: var(--ui-2);
+  font-size: var(--ui-text-label-sm);
+}
+
+@utility input-width-lg {
+  min-width: calc(100 * var(--ui-1));
+  padding-block: var(--ui-3);
+  font-size: var(--ui-text-label-md);
+}
+
 @utility input-default {
   border-color: rgb(var(--ui-border));
   color: rgb(var(--ui-fg));
@@ -300,7 +318,7 @@
 }
 
 @utility input-disabled {
-  border-color: rgb((var(--ui-border)));
+  border-color: rgb(var(--ui-border));
   color: var(--ui-fg-muted);
 }
 
@@ -317,7 +335,17 @@
 }
 
 /* -----------------------------
-   3) Phoenix UI component classes
+   3) Phoenix UI base component classes
+   (reusable design patterns)
+   ----------------------------- */
+@layer base {
+  ::picker(select) {
+    border: none;
+  }
+}
+
+/* -----------------------------
+   4) Phoenix UI component classes
    (reusable design patterns)
    ----------------------------- */
 
@@ -401,7 +429,7 @@
   }
 
   .phx-input {
-    @apply ui:border-none ui:outline-none ui:px-4 ui:py-3 ui:flex-1 ui:cursor-pointer;
+    @apply ui:border-none ui:outline-none ui:px-4 ui:flex-1 ui:cursor-pointer;
   }
 
   .phx-cta-ghost {

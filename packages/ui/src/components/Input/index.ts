@@ -1,5 +1,5 @@
 export { Input } from "./Input";
-export type { InputProps, InputSize } from "./Input";
+export type { InputProps, InputSize, InputWidth, InputSurface } from "./Input";
 export { TextInput } from "./TextInput";
 export type {
   TextInputProps,

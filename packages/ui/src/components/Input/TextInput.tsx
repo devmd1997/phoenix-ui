@@ -41,7 +41,7 @@ function getPrefixPreset(prefixPreset: TextInputPrefixPreset | undefined) {
   const preset = getPreset();
   return (
     preset && (
-      <div className="ui:flex ui:justify-center ui:items-center ui:p-3">
+      <div className="ui:flex ui:justify-center ui:items-center ui:px-3">
         {preset}
       </div>
     )

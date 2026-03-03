@@ -7,23 +7,20 @@ import { responsiveClass } from "../../utlis/responsive";
 const textVariants = cva("", {
   variants: {
     variant: {
-      h1: "ui:font-heading ui:text-h1 ui:font-bold ui:tracking-tight ui:leading-heading",
-      h2: "ui:font-heading ui:text-h2 ui:font-bold ui:tracking-tight ui:leading-heading",
-      h3: "ui:font-heading ui:text-h3 ui:font-bold ui:tracking-tight ui:leading-heading",
-      h4: "ui:font-heading ui:text-h4 ui:font-bold ui:tracking-tight ui:leading-heading",
-      h5: "ui:font-heading ui:text-h5 ui:font-medium ui:leading-heading",
-      h6: "ui:font-heading ui:text-h6 ui:font-medium ui:leading-heading",
-      "body-lg": "ui:font-body ui:text-body-lg ui:font-normal ui:leading-body",
-      "body-md": "ui:font-body ui:text-body-md ui:font-normal ui:leading-body",
-      "body-sm": "ui:font-body ui:text-body-sm ui:font-normal ui:leading-body",
+      h1: "ui:font-heading ui:text-h1 ui:tracking-tight ui:leading-heading",
+      h2: "ui:font-heading ui:text-h2 ui:tracking-tight ui:leading-heading",
+      h3: "ui:font-heading ui:text-h3 ui:tracking-tight ui:leading-heading",
+      h4: "ui:font-heading ui:text-h4 ui:tracking-tight ui:leading-heading",
+      h5: "ui:font-heading ui:text-h5 ui:leading-heading",
+      h6: "ui:font-heading ui:text-h6 ui:leading-heading",
+      "body-lg": "ui:font-body ui:text-body-lg ui:leading-body",
+      "body-md": "ui:font-body ui:text-body-md ui:leading-body",
+      "body-sm": "ui:font-body ui:text-body-sm ui:leading-body",
       caption:
-        "ui:font-body ui:text-caption ui:font-normal ui:leading-caption ui:tracking-caption",
-      "label-md":
-        "ui:font-body ui:text-label-md ui:font-medium ui:leading-body",
-      "label-sm":
-        "ui:font-body ui:text-label-sm ui:font-medium ui:leading-body",
-      "label-xs":
-        "ui:font-body ui:text-label-xs ui:font-medium ui:leading-body",
+        "ui:font-body ui:text-caption ui:leading-caption ui:tracking-caption",
+      "label-md": "ui:font-body ui:text-label-md ui:leading-body",
+      "label-sm": "ui:font-body ui:text-label-sm ui:leading-body",
+      "label-xs": "ui:font-body ui:text-label-xs ui:leading-body",
     },
     tone: {
       default: "ui:text-ui-fg",
@@ -34,6 +31,7 @@ const textVariants = cva("", {
       accent: "ui:text-ui-accent",
       warning: "ui:text-ui-accent",
       inverse: "ui:text-ui-bg",
+      inherit: "ui:text-inherit",
     },
     truncate: {
       true: "ui:truncate",
@@ -41,11 +39,36 @@ const textVariants = cva("", {
     uppercase: {
       true: "ui:uppercase",
     },
+    weight: {
+      default: "",
+      black: "ui:font-black",
+      bold: "ui:font-bold",
+      semibold: "ui:font-semibold",
+      normal: "ui:font-normal",
+      light: "ui:font-light",
+    },
   },
   defaultVariants: {
     variant: "body-md",
     tone: "default",
   },
+  compoundVariants: [
+    {
+      weight: "default",
+      variant: ["h1", "h2", "h3", "h4"],
+      className: "ui:font-bold",
+    },
+    {
+      weight: "default",
+      variant: ["h5", "h6", "label-md", "label-sm", "label-xs"],
+      className: "ui:font-medium",
+    },
+    {
+      weight: "default",
+      variant: ["body-lg", "body-md", "body-sm", "caption"],
+      className: "ui:font-normal",
+    },
+  ],
 });
 
 export type TextVariant = NonNullable<

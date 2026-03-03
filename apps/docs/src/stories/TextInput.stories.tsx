@@ -1,33 +1,13 @@
-import { TextInput } from "@phoenix-ui/ui";
+import { Button, Input, type InputSize, type InputSurface, type InputWidth } from "@phoenix-ui/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 
-type TextInputType = "text" | "email" | "password" | "search" | "url" | "tel";
-type TextInputSize = "sm" | "md" | "lg" | "full";
-type TextInputPrefixPreset = "searchIcon" | "atSign" | "dollar";
-type TextInputSuffixPreset = "domainDotCom" | "shortcutSlash" | "goButton";
+type InputType = "text" | "email" | "password" | "search" | "url" | "tel";
 
-const sizeOptions: TextInputSize[] = ["sm", "md", "lg", "full"];
-const typeOptions: TextInputType[] = [
-  "text",
-  "email",
-  "password",
-  "search",
-  "url",
-  "tel",
-];
-const prefixPresetOptions: Array<TextInputPrefixPreset | undefined> = [
-  undefined,
-  "searchIcon",
-  "atSign",
-  "dollar",
-];
-const suffixPresetOptions: Array<TextInputSuffixPreset | undefined> = [
-  undefined,
-  "domainDotCom",
-  "shortcutSlash",
-  "goButton",
-];
+const sizeOptions: InputSize[] = ["sm", "md", "lg"];
+const widthOptions: InputWidth[] = ["auto", "full"];
+const surfaceOptions: InputSurface[] = ["outline", "subtle", "underline"];
+const typeOptions: InputType[] = ["text", "email", "password", "search", "url", "tel"];
 
 const noop = () => undefined;
 const baseArgs = {
@@ -39,16 +19,15 @@ const baseArgs = {
 };
 
 const meta = {
-  title: "Forms/TextInput",
-  component: TextInput,
+  title: "Forms/Input",
+  component: Input,
   tags: ["autodocs"],
   argTypes: {
     placeholder: { control: "text" },
     size: { control: { type: "select" }, options: sizeOptions },
+    width: { control: { type: "select" }, options: widthOptions },
+    surface: { control: { type: "select" }, options: surfaceOptions },
     type: { control: { type: "select" }, options: typeOptions },
-    prefixPreset: { control: { type: "select" }, options: prefixPresetOptions },
-    suffixPreset: { control: { type: "select" }, options: suffixPresetOptions },
-    suffixButtonLabel: { control: "text" },
   },
   parameters: {
     controls: { expanded: true },
@@ -57,17 +36,16 @@ const meta = {
     ...baseArgs,
     placeholder: "Enter text...",
     size: "md",
+    width: "auto",
+    surface: "outline",
     type: "text",
-    prefixPreset: undefined,
-    suffixPreset: undefined,
-    suffixButtonLabel: "Go",
   },
   render: ({ onBlur, onFocus, ...args }) => {
     const [value, setValue] = useState("");
 
     return (
       <div className="ui:w-full ui:max-w-md">
-        <TextInput
+        <Input
           {...args}
           value={value}
           onChange={(event) => setValue(event.target.value)}
@@ -77,7 +55,7 @@ const meta = {
       </div>
     );
   },
-} satisfies Meta<typeof TextInput>;
+} satisfies Meta<typeof Input>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -90,21 +68,19 @@ export const Playground: Story = {
 };
 
 export const Sizes: Story = {
-  args: {
-    ...baseArgs,
-  },
   render: () => (
     <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
       {sizeOptions.map((size) => (
         <div key={size} className="ui:flex ui:flex-col ui:gap-2">
           <span className="ui:text-label-sm ui:text-ui-fg-muted">{size}</span>
-          <TextInput
+          <Input
             value=""
             onChange={noop}
             onFocus={noop}
             onBlur={noop}
             placeholder={`Size: ${size}`}
             size={size}
+            width="full"
             responsive={{ md: size }}
           />
         </div>
@@ -114,15 +90,12 @@ export const Sizes: Story = {
 };
 
 export const Types: Story = {
-  args: {
-    ...baseArgs,
-  },
   render: () => (
     <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
       {typeOptions.map((type) => (
         <div key={type} className="ui:flex ui:flex-col ui:gap-2">
           <span className="ui:text-label-sm ui:text-ui-fg-muted">{type}</span>
-          <TextInput
+          <Input
             value=""
             onChange={noop}
             onFocus={noop}
@@ -130,6 +103,7 @@ export const Types: Story = {
             placeholder={`Type: ${type}`}
             type={type}
             size="md"
+            width="full"
             responsive={{ md: "md" }}
           />
         </div>
@@ -138,83 +112,87 @@ export const Types: Story = {
   ),
 };
 
-export const PrefixesAndSuffixes: Story = {
-  args: {
-    ...baseArgs,
-  },
+export const Surfaces: Story = {
   render: () => (
     <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
-      <div className="ui:flex ui:flex-col ui:gap-2">
-        <span className="ui:text-label-sm ui:text-ui-fg-muted">
-          Currency prefix
-        </span>
-        <TextInput
-          value=""
-          onChange={noop}
-          onFocus={noop}
-          onBlur={noop}
-          placeholder="0.00"
-          size="md"
-          prefixPreset="dollar"
-          responsive={{ md: "md" }}
-        />
-      </div>
-
-      <div className="ui:flex ui:flex-col ui:gap-2">
-        <span className="ui:text-label-sm ui:text-ui-fg-muted">
-          Domain suffix
-        </span>
-        <TextInput
-          value=""
-          onChange={noop}
-          onFocus={noop}
-          onBlur={noop}
-          placeholder="my-site"
-          size="md"
-          suffixPreset="domainDotCom"
-          responsive={{ md: "md" }}
-        />
-      </div>
-
-      <div className="ui:flex ui:flex-col ui:gap-2">
-        <span className="ui:text-label-sm ui:text-ui-fg-muted">
-          Both prefix and suffix
-        </span>
-        <TextInput
-          value=""
-          onChange={noop}
-          onFocus={noop}
-          onBlur={noop}
-          placeholder="Search docs"
-          type="search"
-          size="md"
-          prefixPreset="searchIcon"
-          suffixPreset="shortcutSlash"
-          responsive={{ md: "md" }}
-        />
-      </div>
+      {surfaceOptions.map((surface) => (
+        <div key={surface} className="ui:flex ui:flex-col ui:gap-2">
+          <span className="ui:text-label-sm ui:text-ui-fg-muted">{surface}</span>
+          <Input
+            value=""
+            onChange={noop}
+            onFocus={noop}
+            onBlur={noop}
+            placeholder={`Surface: ${surface}`}
+            size="md"
+            width="full"
+            surface={surface}
+            responsive={{ md: "md" }}
+          />
+        </div>
+      ))}
     </div>
   ),
 };
 
-export const SearchWithIconAndAction: Story = {
-  args: {
-    ...baseArgs,
-  },
+export const Widths: Story = {
   render: () => (
-    <div className="ui:w-full ui:max-w-md">
-      <TextInput
+    <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
+      {widthOptions.map((width) => (
+        <div key={width} className="ui:flex ui:flex-col ui:gap-2">
+          <span className="ui:text-label-sm ui:text-ui-fg-muted">{width}</span>
+          <Input
+            value=""
+            onChange={noop}
+            onFocus={noop}
+            onBlur={noop}
+            placeholder={`Width: ${width}`}
+            size="md"
+            width={width}
+            surface="outline"
+            responsive={{ md: "md" }}
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const PrefixAndSuffix: Story = {
+  render: () => (
+    <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
+      <Input
+        value=""
+        onChange={noop}
+        onFocus={noop}
+        onBlur={noop}
+        placeholder="Price"
+        size="md"
+        width="full"
+        prefix="$"
+      />
+      <Input
+        value=""
+        onChange={noop}
+        onFocus={noop}
+        onBlur={noop}
+        placeholder="Search"
+        type="search"
+        size="md"
+        width="full"
+        suffix="⌘K"
+      />
+      <Input
         value=""
         onChange={noop}
         onFocus={noop}
         onBlur={noop}
         placeholder="Search components"
         type="search"
-        size="full"
-        prefixPreset="searchIcon"
-        suffixPreset="goButton"
-        suffixButtonLabel="Go"
-        responsive={{ md: "full" }}
+        size="md"
+        width="full"
+        prefix="search"
+        suffix={<Button label="Go" size="sm" variant="primary" onClick={noop} />}
       />
     </div>
   ),

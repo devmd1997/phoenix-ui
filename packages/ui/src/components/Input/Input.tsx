@@ -1,49 +1,139 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ResponsiveProp } from "../../types";
-import { memo, useCallback, type ForwardedRef } from "react";
+import {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  type ForwardedRef,
+} from "react";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import { useFormFieldContext } from "../Form/FormField";
+import { type ButtonProps } from "../Button";
+import { Text } from "../Text";
+import { Icon, type IconVariant } from "../Icons/Icon";
+import { isIconVariant } from "../../types/typeGuards";
 
-const inputVariants = cva(
-  "ui:rounded-lg ui:flex ui:justify-between ui:placeholder:text-ui-fg-muted ui:overflow-hidden",
+const inputContainerVariants = cva(
+  "ui:flex ui:justify-between ui:placeholder:text-ui-fg-muted ui:overflow-hidden",
   {
     variants: {
       state: {
         default:
-          "ui:bg-ui-bg ui:border ui:border-ui-border ui:focus-within:outline-ui-primary ui:text-ui-fg",
+          "ui:input-default ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-primary",
         error:
-          "ui:bg-ui-error/25 ui:border-ui-error ui:focus-within:outline-ui-error ui:active:outline-ui-error ui:text-ui-error",
+          "ui:input-error ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-error",
         success:
-          "ui:bg-ui-success/25 ui:border-ui-success ui:focus-within:outline-ui-success ui:active:outline-ui-success ui:text-ui-success",
+          "ui:input-success ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-success",
+        disabled: "ui:input-disabled ui:cursor-not-allowed ui:text-ui-fg-muted",
       },
-      size: {
-        sm: "ui:w-50",
-        md: "ui:w-75",
-        lg: "ui:w-100",
-        full: "ui:w-full",
-      },
-      disabled: {
-        true: "",
-        false: "",
+      surface: {
+        outline: "ui:border ui:rounded-lg ui:focus-within:border-2",
+        subtle: "ui:rounded-lg ui:focus-within:border-2",
+        underline: "ui:border-b-2 ui:focus:border-b-2",
       },
     },
     defaultVariants: {
       state: "default",
-      size: "md",
-      disabled: false,
+      surface: "outline",
     },
     compoundVariants: [
       {
-        state: ["default", "error", "success"],
-        disabled: true,
-        className: "ui:bg-ui-disabled ui:text-ui-fg-muted ui:border-ui-border",
+        state: ["default", "error", "success", "disabled"],
+        surface: ["underline", "outline"],
+        className: "ui:bg-none",
+      },
+      {
+        state: "default",
+        surface: "underline",
+        className:
+          "ui:hover:not-focus-within:border-b-2 ui:hover:not-focus-within:border-ui-primary/50",
+      },
+      {
+        state: "default",
+        surface: "outline",
+        className:
+          "ui:hover:not-focus-within:border ui:hover:not-focus-within:border-ui-primary/50",
+      },
+      {
+        state: "default",
+        surface: "subtle",
+        className:
+          "ui:bg-ui-bg ui:hover:not-focus-within:bg-ui-primary/25 ui:focus-within:bg-ui-primary/50",
+      },
+      {
+        state: "default",
+        surface: "subtle",
+        className:
+          "ui:hover:not-focus-within:border-2 ui:hover:not-focus-within:border-ui-primary/50",
+      },
+      {
+        state: "error",
+        surface: "subtle",
+        className: "ui:bg-ui-error/25",
+      },
+      {
+        state: "success",
+        surface: "subtle",
+        className: "ui:bg-ui-success/25",
+      },
+      {
+        state: "disabled",
+        surface: "subtle",
+        className: "ui:bg-ui-disabled/25",
       },
     ],
   },
 );
 
-export type InputSize = NonNullable<VariantProps<typeof inputVariants>["size"]>;
-type InputState = NonNullable<VariantProps<typeof inputVariants>["state"]>;
+const inputComponentVariants = cva("", {
+  variants: {
+    size: {
+      sm: "ui:input-width-sm",
+      md: "ui:input-width-md",
+      lg: "ui:input-width-lg",
+    },
+    width: {
+      auto: "ui:w-auto",
+      full: "ui:w-full",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+    width: "auto",
+  },
+});
+
+export type InputSize = NonNullable<
+  VariantProps<typeof inputComponentVariants>["size"]
+>;
+export type InputWidth = NonNullable<
+  VariantProps<typeof inputComponentVariants>["width"]
+>;
+
+export type InputSurface = NonNullable<
+  VariantProps<typeof inputContainerVariants>
+>["surface"];
+type InputState = NonNullable<
+  VariantProps<typeof inputContainerVariants>["state"]
+>;
+
+type InputContextValue = {
+  suffix?: InputAddOn;
+  prefix?: InputAddOn;
+  state?: InputState;
+  size?: InputSize;
+};
+
+const InputContext = createContext<InputContextValue | undefined>(undefined);
+
+function useInputContext() {
+  const context = useContext(InputContext);
+  if (context === undefined) {
+    throw new Error("useInputContext must be used within an InputComponent");
+  }
+  return context;
+}
 /**
  * Input props for the reusable base input primitive.
  *
@@ -67,7 +157,10 @@ export interface InputProps {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
+  disabled?: boolean;
   size?: InputSize;
+  width?: InputWidth;
+  surface?: InputSurface;
   ref?: ForwardedRef<HTMLInputElement>;
   responsive?: ResponsiveProp<InputSize>;
 }
@@ -98,14 +191,17 @@ function InputComponent({
   onFocus,
   onBlur,
   responsive,
+  disabled,
   prefix,
   suffix,
   type,
   size,
+  width,
+  surface,
   ref,
 }: InputProps) {
   const formFieldContext = useFormFieldContext();
-  const inputStateStyle = getInputStateStyle(formFieldContext);
+  const inputStateStyle = getInputStateStyle(formFieldContext, disabled);
 
   const handleFocus = useCallback(() => {
     if (onFocus) {
@@ -127,49 +223,55 @@ function InputComponent({
     },
     [onChange],
   );
-
+  const containerStyle = inputContainerVariants({
+    state: inputStateStyle,
+    surface,
+  });
   const styles = useResponsiveVariantClass({
-    variants: inputVariants,
+    variants: inputComponentVariants,
     base: {
-      state: inputStateStyle,
       size,
-      disabled: formFieldContext?.disabled,
+      width,
     },
     responsive,
-    toVariantProps: (
-      responsiveSize: VariantProps<typeof inputVariants>["size"],
-    ) => ({ size: responsiveSize ?? undefined }),
+    toVariantProps: (responsiveSize?: InputSize) => ({
+      size: responsiveSize ?? undefined,
+    }),
   });
 
   return (
-    <div className={styles}>
-      {prefix}
-      <input
-        ref={ref}
-        type={type}
-        value={value}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        placeholder={placeholder}
-        className="phx-input"
-        required={!!formFieldContext?.required}
-      />
-      {suffix}
-    </div>
+    <InputContext.Provider value={{ suffix, prefix, size }}>
+      <div className={containerStyle}>
+        <InputComponent.InputPrefix />
+        <input
+          ref={ref}
+          type={type}
+          value={value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          placeholder={placeholder}
+          className={`phx-input ${styles}`}
+          required={!!formFieldContext?.required}
+          disabled={disabled}
+        />
+        <InputComponent.InputSuffix />
+      </div>
+    </InputContext.Provider>
   );
 }
 
 function getInputStateStyle(
   context: ReturnType<typeof useFormFieldContext>,
+  isDisabled?: boolean,
 ): InputState {
-  if (!context) {
-    return "default";
+  if (context?.disabled || isDisabled) {
+    return "disabled";
   }
-  if (context.error) {
+  if (context?.error) {
     return "error";
   }
-  if (context.success) {
+  if (context?.success) {
     return "success";
   }
   return "default";
@@ -177,3 +279,57 @@ function getInputStateStyle(
 
 export const Input = memo(InputComponent);
 Input.displayName = "Input";
+
+type InputAddOn = IconVariant | string | ButtonProps | React.ReactNode;
+
+InputComponent.InputSuffix = function InputSuffix() {
+  const context = useInputContext();
+  const { suffix } = context;
+  if (!suffix) {
+    return <></>;
+  }
+  if (isIconVariant(suffix)) {
+    return (
+      <span className="ui:flex ui:items-center ui:p-1">
+        <Icon size={"md"} icon={suffix} />
+      </span>
+    );
+  }
+  if (typeof suffix === "string") {
+    return (
+      <div className="ui:flex ui:pr-3 ui:h-full ui:text-center ui:items-center">
+        <Text as="span" variant={"label-md"} tone={"default"}>
+          {suffix}
+        </Text>
+      </div>
+    );
+  } else {
+    return <>{suffix}</>;
+  }
+};
+
+InputComponent.InputPrefix = function InputPrefix() {
+  const context = useInputContext();
+  const { prefix } = context;
+  if (!prefix) {
+    return <></>;
+  }
+  if (isIconVariant(prefix)) {
+    return (
+      <span className="ui:flex ui:items-center ui:pl-3 ui:h-full">
+        <Icon size={"md"} icon={prefix} />
+      </span>
+    );
+  }
+  if (typeof prefix === "string") {
+    return (
+      <div className="ui:flex ui:text-center ui:pl-3 ui:items-center ui:h-full">
+        <Text as="span" variant={"label-md"} tone={"default"}>
+          {prefix}
+        </Text>
+      </div>
+    );
+  } else {
+    return <>{prefix}</>;
+  }
+};

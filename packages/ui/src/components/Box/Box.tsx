@@ -78,7 +78,7 @@ type BoxSpecs = VariantProps<typeof boxVariants> & {
  */
 export interface BoxProps extends BoxSpecs, PropsWithChildren {
   as?: BoxTags;
-  responsive: ResponsiveProp<BoxSpecs>;
+  responsive?: ResponsiveProp<BoxSpecs>;
 }
 
 /**

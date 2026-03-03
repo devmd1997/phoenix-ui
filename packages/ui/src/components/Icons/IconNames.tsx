@@ -7,6 +7,12 @@ import {
   LiaBellSolid,
   LiaPlusSolid,
   LiaMinusSolid,
+  LiaAngleDownSolid,
+  LiaAngleUpSolid,
+  LiaAngleRightSolid,
+  LiaAngleLeftSolid,
+  LiaCheckSolid,
+  LiaTimesSolid,
 } from "react-icons/lia";
 import type { IconVariant } from "./Icon";
 
@@ -17,6 +23,12 @@ export const LIA_ICONS = {
   bell: LiaBellSolid,
   plus: LiaPlusSolid,
   minus: LiaMinusSolid,
+  angleDown: LiaAngleDownSolid,
+  angleUp: LiaAngleUpSolid,
+  angleRight: LiaAngleRightSolid,
+  angleLeft: LiaAngleLeftSolid,
+  checkmark: LiaCheckSolid,
+  close: LiaTimesSolid,
 } satisfies Record<string, IconType>;
 
 export type IconName = keyof typeof LIA_ICONS;
