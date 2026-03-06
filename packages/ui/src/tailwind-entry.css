@@ -13,14 +13,14 @@
   /* Semantic neutrals */
   --ui-bg: 248 248 253; /* warm off-white */
   --ui-surface: 255 255 255; /* card/panel */
-  --ui-button-secondary: 47 62 81; /* button secondary color */
+  --ui-button-secondary: 100 116 139; /* button secondary color */
   --ui-fg: 15 23 42; /* main text */
-  --ui-fg-surface: 237 238 245; /* text on a colored background */
+  --ui-fg-surface: 248 248 253; /* text on a colored background */
   --ui-fg-muted: 71 85 105; /* secondary text */
   --ui-border: 226 232 240; /* borders/dividers */
   --ui-disabled: 219 221 233; /* disabled elements */
-  --ui-error: 220 38 38; /* error */
-  --ui-success: 38 253 92; /* success */
+  --ui-error: 239 64 34; /* error */
+  --ui-success: 0 172 0; /* success */
   --ui-info: 38 199 253; /* info */
 
   /* Interaction */
@@ -103,6 +103,10 @@
   --ui-tracking-label-md: 0.01em;
   --ui-tracking-label-sm: 0.02em;
   --ui-tracking-label-xs: 0.04em;
+
+  --ui-breakpoint-sm: 338px;
+  --ui-breakpoint-md: 768px;
+  --ui-breakpoint-lg: 1024px;
 }
 
 /* Tablet */
@@ -210,6 +214,10 @@
   --text-label-xs: var(--ui-text-label-xs);
 
   --shadow-ring: 0 0 18px 6px rgba(245, 120, 66, 0.2);
+
+  --breakpoint-sm: 338px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
 }
 
 @utility bg-hover {
@@ -298,6 +306,69 @@
 
   & ::placeholder {
     color: var(--ui-fg-muted);
+  }
+}
+
+@utility button-solid-* {
+  background-color: --value(--color-*);
+  color: rgb(var(--ui-fg-surface));
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    background-color: --alpha(--value(--color-*) / 80%);
+  }
+}
+
+@utility button-outline-* {
+  background-color: transparent;
+  border: 2px solid;
+  border-color: --value(--color-*);
+  color: --value(--color-*);
+
+  &:hover:not(:disabled) {
+    background-color: --value(--color-*);
+    color: rgb(var(--ui-fg-surface));
+  }
+}
+
+@utility button-surface-* {
+  background-color: --alpha(--value(--color-*) / 20%);
+  color: --value(--color-*);
+  border: 2px solid;
+  border-color: --value(--color-*);
+
+  &:hover:not(:disabled) {
+    background-color: --alpha(--value(--color-*) / 40%);
+  }
+}
+
+@utility button-subtle-* {
+  background-color: --alpha(--value(--color-*) / 20%);
+  color: --value(--color-*);
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    background-color: --alpha(--value(--color-*) / 40%);
+  }
+}
+
+@utility button-ghost-* {
+  background-color: transparent;
+  color: --value(--color-*);
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    background-color: --alpha(--value(--color-*) / 40%);
+  }
+}
+
+@utility button-plain-* {
+  background-color: transparent;
+  color: --value(--color-*);
+  border: 2px solid transparent;
+
+  &:hover:not(:disabled) {
+    color: --alpha(--value(--color-*) / 80%);
   }
 }
 

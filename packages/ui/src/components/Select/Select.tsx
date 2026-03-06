@@ -32,8 +32,8 @@ const selectVariants = cva(
         disabled: "ui:input-disabled ui:cursor-not-allowed ui:text-ui-fg-muted",
       },
       surface: {
-        outline: "ui:border ui:rounded-full ui:focus-within:border-2",
-        subtle: "ui:rounded-full ui:focus-within:border-2",
+        outline: "ui:border ui:rounded-sm ui:focus-within:border-2",
+        subtle: "ui:rounded-sm ui:focus-within:border-2",
         underline: "ui:border-b-2 ui:focus:border-b-2",
       },
     },

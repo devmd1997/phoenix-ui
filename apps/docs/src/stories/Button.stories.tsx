@@ -1,6 +1,24 @@
 import { Button } from "@phoenix-ui/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+const sizeOptions = ["sm", "md", "lg"] as const;
+const intentOptions = [
+  "primary",
+  "secondary",
+  "danger",
+  "success",
+  "info",
+] as const;
+const variantOptions = [
+  "solid",
+  "outline",
+  "subtle",
+  "surface",
+  "ghost",
+  "plain",
+] as const;
+const cornerOptions = ["rounded", "none"] as const;
+
 const iconMapping = {
   undefined: undefined,
   home: "home",
@@ -18,15 +36,19 @@ const meta = {
     label: { type: "string" },
     size: {
       control: { type: "select" },
-      options: ["sm", "md", "lg"],
+      options: sizeOptions,
+    },
+    intent: {
+      control: { type: "select" },
+      options: intentOptions,
     },
     variant: {
       control: { type: "select" },
-      options: ["primary", "secondary", "callToAction"],
+      options: variantOptions,
     },
-    type: {
+    corners: {
       control: { type: "select" },
-      options: ["default", "ghost", "link"],
+      options: cornerOptions,
     },
     disabled: { type: "boolean" },
     iconLeft: {
@@ -48,6 +70,8 @@ export const Playground: Story = {
   args: {
     label: "Button",
     size: "md",
-    variant: "primary",
+    intent: "primary",
+    variant: "solid",
+    corners: "rounded",
   },
 };

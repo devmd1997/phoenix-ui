@@ -71,7 +71,7 @@ function getSuffixPreset(
         <Button
           label={suffixButtonLabel ?? "Go"}
           size="md"
-          variant="primary"
+          intent="primary"
           onClick={onSuffixButtonClick}
           corners="none"
         />

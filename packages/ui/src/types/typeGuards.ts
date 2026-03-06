@@ -13,7 +13,7 @@ export function isButtonProps(value: unknown): value is ButtonProps {
   return (
     typeof v.label === "string" &&
     (v.size === undefined || buttonSizes.has(v.size)) &&
-    (v.variant === undefined || v.variant === null || buttonVariants.has(v.variant)) &&
+    (v.intent === undefined || v.intent === null || buttonVariants.has(v.intent)) &&
     (v.disabled === undefined || typeof v.disabled === "boolean") &&
     (v.onClick === undefined || typeof v.onClick === "function")
   );

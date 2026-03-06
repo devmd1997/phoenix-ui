@@ -218,11 +218,11 @@ TextAreaComponent.Footer = function TextAreaFooter() {
   const textAreaContext = useTextAreaContext();
 
   const PrimaryButton = (props: FooterButtonProps) => (
-    <Button {...props} variant="primary" />
+    <Button {...props} intent="primary" />
   );
 
   const SecondaryButton = (props: FooterButtonProps) => (
-    <Button {...props} variant="secondary" />
+    <Button {...props} intent="secondary" />
   );
 
   return (

@@ -7,7 +7,7 @@ import { Icon } from "../Icons";
 import type { IconVariant } from "../Icons/Icon";
 
 const buttonVariants = cva(
-  "ui:flex ui:justify-center ui:items-center ui:font-semibold ui:font-body ui:tracking-button ui:cursor-pointer",
+  "ui:flex ui:justify-center ui:items-center ui:font-semibold ui:font-body ui:tracking-button",
   {
     variants: {
       size: {
@@ -15,91 +15,242 @@ const buttonVariants = cva(
         md: "ui:text-label-sm ui:py-1.5 ui:px-3 ui:gap-3",
         lg: "ui:text-label-md ui:py-2 ui:px-4 ui:gap-4",
       },
-      variant: {
+      intent: {
         primary: "",
         secondary: "",
         callToAction: "",
+        danger: "",
+        success: "",
+        info: "",
       },
-      type: {
-        default: "",
-        ghost: "ui:border-2 ui:bg-transparent",
-        link: "ui:border-none ui:bg-none ui:underline ui:text-ui-accent",
+      variant: {
+        solid: "",
+        outline: "",
+        subtle: "",
+        surface: "",
+        ghost: "",
+        plain: "",
       },
       disabled: {
-        false: "",
-        true: "ui:cursor-not-allowed ui:text-ui-fg-muted",
+        false: "ui:cursor-pointer",
+        true: "ui:cursor-not-allowed ui:relative ui:after:content-[''] ui:after:absolute ui:after:top-0 ui:after:right-0 ui:after:w-full ui:after:h-full ui:after:bg-white/50",
       },
       corners: {
-        default: "ui:rounded-md",
+        rounded: "ui:rounded-sm",
         none: "ui:rounded-none",
       },
     },
     compoundVariants: [
       {
-        type: "default",
-        variant: "primary",
-        disabled: false,
-        className:
-          "ui:bg-ui-primary ui:hover:shadow-ring ui:hover:shadow-ui-primary/75 ui:hover:bg-hover ui:border-ui-primary ui:text-white",
+        variant: "solid",
+        intent: "primary",
+        className: "ui:button-solid-ui-primary",
       },
       {
-        type: "default",
-        variant: "secondary",
-        disabled: false,
-        className:
-          "ui:bg-ui-button-secondary ui:hover:bg-ui-button-secondary/90 ui:text-ui-fg-surface",
+        variant: "solid",
+        intent: "secondary",
+
+        className: "ui:button-solid-ui-button-secondary",
       },
       {
-        variant: "callToAction",
+        variant: "solid",
+        intent: "danger",
+
+        className: "ui:button-solid-ui-error",
+      },
+      {
+        variant: "solid",
+        intent: "success",
+
+        className: "ui:button-solid-ui-success",
+      },
+      {
+        variant: "solid",
+        intent: "info",
+
+        className: "ui:button-solid-ui-info",
+      },
+      {
+        intent: "callToAction",
         size: ["sm", "md", "lg"],
         className: "ui:text-label-cta ui:py-2.5 ui:px-5",
       },
       {
-        type: "default",
-        variant: "callToAction",
-        disabled: false,
+        variant: "solid",
+        intent: "callToAction",
 
         className:
-          "ui:bg-linear-to-r/increasing ui:from-ui-accent ui:via-ui-primary ui:to-ui-secondary ui:text-ui-bg",
+          "ui:bg-linear-to-r/increasing ui:from-ui-button-secondary ui:via-ui-primary ui:to-ui-secondary ui:text-ui-bg",
       },
       {
-        type: "default",
-        disabled: true,
-        className: "ui:bg-ui-disabled",
-      },
-      {
-        type: "ghost",
-        variant: "primary",
-        disabled: false,
-        className:
-          "ui:border-ui-primary ui:text-ui-primary ui:hover:text-white ui:hover:bg-ui-primary",
-      },
-      {
-        type: "ghost",
-        variant: "secondary",
-        disabled: false,
-        className:
-          "ui:border-ui-accent ui:text-ui-accent ui:hover:bg-ui-accent ui:hover:text-white",
-      },
-      {
-        type: "ghost",
-        variant: "callToAction",
-        disabled: false,
+        variant: "outline",
+        intent: "callToAction",
+
         className: "phx-cta-ghost",
       },
       {
-        type: "ghost",
-        variant: ["primary", "secondary", "callToAction"],
+        variant: "outline",
+        intent: ["primary", "secondary", "callToAction"],
         disabled: true,
         className:
           "ui:border-ui-fg-muted ui:text-ui-fg-muted ui:bg-transparent",
       },
+      {
+        variant: "subtle",
+        intent: "primary",
+
+        className: "ui:button-subtle-ui-primary",
+      },
+      {
+        variant: "subtle",
+        intent: "secondary",
+
+        className: "ui:button-subtle-ui-button-secondary",
+      },
+      {
+        variant: "subtle",
+        intent: "danger",
+
+        className: "ui:button-subtle-ui-error",
+      },
+      {
+        variant: "subtle",
+        intent: "success",
+
+        className: "ui:button-subtle-ui-success",
+      },
+      {
+        variant: "subtle",
+        intent: "info",
+
+        className: "ui:button-subtle-ui-info",
+      },
+      {
+        variant: "surface",
+        intent: "primary",
+
+        className: "ui:button-surface-ui-primary",
+      },
+      {
+        variant: "surface",
+        intent: "secondary",
+
+        className: "ui:button-surface-ui-button-secondary",
+      },
+      {
+        variant: "surface",
+        intent: "danger",
+
+        className: "ui:button-surface-ui-error",
+      },
+      {
+        variant: "surface",
+        intent: "success",
+
+        className: "ui:button-surface-ui-success",
+      },
+      {
+        variant: "surface",
+        intent: "info",
+
+        className: "ui:button-surface-ui-info",
+      },
+      {
+        variant: "outline",
+        intent: "primary",
+
+        className: "ui:button-outline-ui-primary",
+      },
+      {
+        variant: "outline",
+        intent: "secondary",
+
+        className: "ui:button-outline-ui-button-secondary",
+      },
+      {
+        variant: "outline",
+        intent: "danger",
+
+        className: "ui:button-outline-ui-error",
+      },
+      {
+        variant: "outline",
+        intent: "success",
+
+        className: "ui:button-outline-ui-success",
+      },
+      {
+        variant: "outline",
+        intent: "info",
+
+        className: "ui:button-outline-ui-info",
+      },
+      {
+        variant: "ghost",
+        intent: "primary",
+
+        className: "ui:button-ghost-ui-primary",
+      },
+      {
+        variant: "ghost",
+        intent: "secondary",
+
+        className: "ui:button-ghost-ui-button-secondary",
+      },
+      {
+        variant: "ghost",
+        intent: "danger",
+
+        className: "ui:button-ghost-ui-error",
+      },
+      {
+        variant: "ghost",
+        intent: "success",
+
+        className: "ui:button-ghost-ui-success",
+      },
+      {
+        variant: "ghost",
+        intent: "info",
+
+        className: "ui:button-ghost-ui-info",
+      },
+      {
+        variant: "plain",
+        intent: "primary",
+
+        className: "ui:button-plain-ui-primary",
+      },
+      {
+        variant: "plain",
+        intent: "secondary",
+
+        className: "ui:button-plain-ui-button-secondary",
+      },
+      {
+        variant: "plain",
+        intent: "danger",
+
+        className: "ui:button-plain-ui-error",
+      },
+      {
+        variant: "plain",
+        intent: "success",
+
+        className: "ui:button-plain-ui-success",
+      },
+      {
+        variant: "plain",
+        intent: "info",
+
+        className: "ui:button-plain-ui-info",
+      },
     ],
     defaultVariants: {
       size: "md",
-      variant: "secondary",
-      type: "default",
-      corners: "default",
+      intent: "secondary",
+      variant: "solid",
+      corners: "rounded",
     },
   },
 );
@@ -109,11 +260,11 @@ export type ButtonSize = NonNullable<
 >;
 
 export type ButtonVariant = NonNullable<
-  VariantProps<typeof buttonVariants>["variant"]
+  VariantProps<typeof buttonVariants>["intent"]
 >;
 
 export type ButtonType = NonNullable<
-  VariantProps<typeof buttonVariants>["type"]
+  VariantProps<typeof buttonVariants>["variant"]
 >;
 
 export type ButtonDisabled = NonNullable<
@@ -126,7 +277,7 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   iconRight?: IconVariant;
   disabled?: React.ButtonHTMLAttributes<HTMLButtonElement>["disabled"];
   size?: ButtonSize;
-  type?: ButtonType;
+  variant?: ButtonType;
   onClick?: () => void;
   onHover?: (active: boolean) => void;
   responsive?: ResponsiveProp<ButtonSize>;

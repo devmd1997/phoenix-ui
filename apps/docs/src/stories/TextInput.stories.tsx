@@ -1,4 +1,10 @@
-import { Button, Input, type InputSize, type InputSurface, type InputWidth } from "@phoenix-ui/ui";
+import {
+  Button,
+  Input,
+  type InputSize,
+  type InputSurface,
+  type InputWidth,
+} from "@phoenix-ui/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 
@@ -7,7 +13,14 @@ type InputType = "text" | "email" | "password" | "search" | "url" | "tel";
 const sizeOptions: InputSize[] = ["sm", "md", "lg"];
 const widthOptions: InputWidth[] = ["auto", "full"];
 const surfaceOptions: InputSurface[] = ["outline", "subtle", "underline"];
-const typeOptions: InputType[] = ["text", "email", "password", "search", "url", "tel"];
+const typeOptions: InputType[] = [
+  "text",
+  "email",
+  "password",
+  "search",
+  "url",
+  "tel",
+];
 
 const noop = () => undefined;
 const baseArgs = {
@@ -117,7 +130,9 @@ export const Surfaces: Story = {
     <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
       {surfaceOptions.map((surface) => (
         <div key={surface} className="ui:flex ui:flex-col ui:gap-2">
-          <span className="ui:text-label-sm ui:text-ui-fg-muted">{surface}</span>
+          <span className="ui:text-label-sm ui:text-ui-fg-muted">
+            {surface}
+          </span>
           <Input
             value=""
             onChange={noop}
@@ -192,7 +207,16 @@ export const PrefixAndSuffix: Story = {
         size="md"
         width="full"
         prefix="search"
-        suffix={<Button label="Go" size="sm" variant="primary" onClick={noop} />}
+        suffix={
+          <Button
+            label="Go"
+            size="sm"
+            variant={"solid"}
+            intent={"primary"}
+            corners={"none"}
+            onClick={noop}
+          />
+        }
       />
     </div>
   ),

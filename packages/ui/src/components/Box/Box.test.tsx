@@ -69,11 +69,11 @@ describe("Box", () => {
     );
 
     const el = screen.getByText("Responsive Box");
-    expect(el).toHaveClass("sm:ui:inline");
-    expect(el).toHaveClass("sm:ui:text-ui-fg-muted");
-    expect(el).toHaveClass("md:ui:border");
-    expect(el).toHaveClass("md:ui:rounded-xl");
-    expect(el).toHaveClass("md:ui:p-6");
-    expect(el).toHaveClass("md:ui:mt-4");
+    expect(el).toHaveClass("ui:sm:inline");
+    expect(el).toHaveClass("ui:sm:text-ui-fg-muted");
+    expect(el).toHaveClass("ui:md:border");
+    expect(el).toHaveClass("ui:md:rounded-xl");
+    expect(el).toHaveClass("ui:md:p-6");
+    expect(el).toHaveClass("ui:md:mt-4");
   });
 });
