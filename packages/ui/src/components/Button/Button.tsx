@@ -6,8 +6,8 @@ import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { Icon } from "../Icons";
 import type { IconVariant } from "../Icons/Icon";
 
-const buttonVariants = cva(
-  "ui:flex ui:justify-center ui:items-center ui:font-semibold ui:font-body ui:tracking-button",
+export const buttonVariants = cva(
+  "ui:flex ui:justify-center ui:box-border ui:items-center ui:font-semibold ui:font-body ui:tracking-button",
   {
     variants: {
       size: {
@@ -33,7 +33,7 @@ const buttonVariants = cva(
       },
       disabled: {
         false: "ui:cursor-pointer",
-        true: "ui:cursor-not-allowed ui:relative ui:after:content-[''] ui:after:absolute ui:after:top-0 ui:after:right-0 ui:after:w-full ui:after:h-full ui:after:bg-white/50",
+        true: "ui:cursor-not-allowed ui:relative ui:after:content-[''] ui:after:absolute ui:after:-inset-0.5 ui:after:rounded-[inherit] ui:after:bg-white/50",
       },
       corners: {
         rounded: "ui:rounded-sm",
@@ -254,6 +254,10 @@ const buttonVariants = cva(
     },
   },
 );
+
+export type ButtonVariantType = NonNullable<
+  VariantProps<typeof buttonVariants>
+>;
 
 export type ButtonSize = NonNullable<
   VariantProps<typeof buttonVariants>["size"]
