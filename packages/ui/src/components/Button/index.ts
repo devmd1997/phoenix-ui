@@ -1,4 +1,4 @@
 export {Button} from "./Button";
 export type { ButtonProps } from "./Button";
 export {ToggleButton} from './ToggleButton';
-export type {ToggleButtonProps} from './ToggleButton';
+export type {ToggleButtonProps, ToggleButtonSize} from './ToggleButton';

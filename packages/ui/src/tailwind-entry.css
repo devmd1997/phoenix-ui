@@ -104,6 +104,9 @@
   --ui-tracking-label-sm: 0.02em;
   --ui-tracking-label-xs: 0.04em;
 
+  --ui-z-popover: 50;
+  --ui-z-modal: 1000;
+
   --ui-breakpoint-sm: 338px;
   --ui-breakpoint-md: 768px;
   --ui-breakpoint-lg: 1024px;
@@ -399,6 +402,18 @@
   color: var(--ui-fg);
 }
 
+@utility z-popover {
+  z-index: var(--ui-z-popover);
+}
+
+@utility z-popover-caret {
+  z-index: calc(var(--ui-z-popover) - 1);
+}
+
+@utility z-modal {
+  z-index: var(--ui-z-modal);
+}
+
 @custom-variant toggled {
   &:where([data-toggled="true"], [data-toggled="true"] *) {
     @slot;
@@ -579,5 +594,12 @@
     transform: translateX(0);
     transition: left 0.3s ease;
     transform: translateY(0);
+  }
+
+  .phx-tooltip-top::after {
+    content: "\25BC";
+    position: absolute;
+    top: 60%;
+    right: 50%;
   }
 }

@@ -33,7 +33,8 @@ const textAreaVariants = cva("ui:flex-col ui:font-body ui:font-normal", {
       full: "ui:w-full",
     },
     border: {
-      filled: "ui:border-2 ui:rounded-lg",
+      outline: "ui:border ui:rounded-sm ui:focus-within:border-2",
+      subtle: "ui:rounded-sm ui:focus-within:border-2",
       underline: "ui:border-b-2",
     },
   },
@@ -41,7 +42,7 @@ const textAreaVariants = cva("ui:flex-col ui:font-body ui:font-normal", {
     size: "md",
     width: "auto",
     state: "default",
-    border: "filled",
+    border: "outline",
   },
   compoundVariants: [
     {
@@ -51,23 +52,42 @@ const textAreaVariants = cva("ui:flex-col ui:font-body ui:font-normal", {
     },
     {
       state: "default",
-      border: "filled",
-      class: "ui:bg-ui-bg",
+      border: "underline",
+      className:
+        "ui:hover:not-focus-within:border-b-2 ui:hover:not-focus-within:border-ui-primary/50",
+    },
+    {
+      state: "default",
+      border: "outline",
+      className:
+        "ui:hover:not-focus-within:border ui:hover:not-focus-within:border-ui-primary/50",
+    },
+    {
+      state: "default",
+      border: "subtle",
+      className:
+        "ui:bg-ui-bg ui:hover:not-focus-within:bg-ui-primary/25 ui:focus-within:bg-ui-primary/50",
+    },
+    {
+      state: "default",
+      border: "subtle",
+      className:
+        "ui:hover:not-focus-within:border-2 ui:hover:not-focus-within:border-ui-primary/50",
     },
     {
       state: "error",
-      border: "filled",
-      class: "ui:bg-ui-error/25",
+      border: "subtle",
+      className: "ui:bg-ui-error/25",
     },
     {
       state: "success",
-      border: "filled",
-      class: "ui:bg-ui-success/25",
+      border: "subtle",
+      className: "ui:bg-ui-success/25",
     },
     {
       state: "disabled",
-      border: "filled",
-      class: "ui:bg-ui-disabled",
+      border: "subtle",
+      className: "ui:bg-ui-disabled/25",
     },
   ],
 });
@@ -80,9 +100,10 @@ export type TextAreaState = NonNullable<
 export type TextAreaWidth = NonNullable<
   VariantProps<typeof textAreaVariants>
 >["width"];
-export type TextAreaBorder = NonNullable<
+export type TextAreaSurface = NonNullable<
   VariantProps<typeof textAreaVariants>
 >["border"];
+export type TextAreaBorder = TextAreaSurface;
 
 type TextAreaContextValue = {
   footer?: TextAreaFooterProps;
@@ -126,7 +147,7 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   size?: TextAreaSize;
   // Width variant for content area layout.
   width?: TextAreaWidth;
-  // Border presentation variant.
+  // Deprecated alias for `surface`.
   border?: TextAreaBorder;
   // Optional footer action area rendered below the textarea.
   footer?: TextAreaFooterProps;
@@ -181,7 +202,7 @@ function TextAreaComponent({
       state: stateStyle,
       size,
       width,
-      border,
+      border: border,
     },
     responsive,
     toVariantProps: (responsiveSize: TextAreaSize) => ({

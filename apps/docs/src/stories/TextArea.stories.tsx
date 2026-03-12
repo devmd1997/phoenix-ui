@@ -1,7 +1,7 @@
 import {
   TextArea,
-  type TextAreaBorder,
   type TextAreaSize,
+  type TextAreaBorder,
   type TextAreaWidth,
 } from "@phoenix-ui/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
@@ -10,7 +10,7 @@ import type { ChangeEvent } from "react";
 
 const sizeOptions: TextAreaSize[] = ["sm", "md", "lg"];
 const widthOptions: TextAreaWidth[] = ["auto", "full"];
-const borderOptions: TextAreaBorder[] = ["filled", "underline"];
+const surfaceOptions: TextAreaBorder[] = ["outline", "subtle", "underline"];
 const noop = () => undefined;
 
 const baseArgs = {
@@ -29,7 +29,7 @@ const meta = {
     placeholder: { control: "text" },
     size: { control: { type: "select" }, options: sizeOptions },
     width: { control: { type: "select" }, options: widthOptions },
-    border: { control: { type: "select" }, options: borderOptions },
+    border: { control: { type: "select" }, options: surfaceOptions },
     rows: { control: { type: "number" } },
   },
   parameters: {
@@ -41,7 +41,7 @@ const meta = {
     rows: 4,
     size: "md",
     width: "full",
-    border: "filled",
+    border: "outline",
   },
   render: ({ onBlur, onFocus, ...args }) => {
     const [value, setValue] = useState("");
@@ -89,26 +89,26 @@ export const Variants: Story = {
             placeholder={`Size: ${size}`}
             size={size}
             width="auto"
-            border="filled"
+            border="outline"
             rows={4}
             responsive={{ md: size }}
           />
         </div>
       ))}
-      {borderOptions.map((border) => (
-        <div key={border} className="ui:flex ui:flex-col ui:gap-2">
+      {surfaceOptions.map((surface) => (
+        <div key={surface} className="ui:flex ui:flex-col ui:gap-2">
           <span className="ui:text-label-sm ui:text-ui-fg-muted">
-            border: {border}
+            surface: {surface}
           </span>
           <TextArea
             value=""
             onChange={noop}
             onFocus={noop}
             onBlur={noop}
-            placeholder={`Border: ${border}`}
+            placeholder={`Surface: ${surface}`}
             size="md"
             width="auto"
-            border={border}
+            border={surface}
             rows={4}
             responsive={{ md: "md" }}
           />
@@ -133,7 +133,7 @@ export const WithFooterActions: Story = {
         size="md"
         width="full"
         rows={5}
-        border="filled"
+        border="outline"
         footer={{
           secondaryButtons: [
             { label: "Discard", size: "lg", onClick: noop },

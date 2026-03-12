@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import { memo, useCallback, useRef, useState, type ChangeEvent } from "react";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import type { ResponsiveProp } from "../../types";
@@ -8,86 +8,37 @@ import {
 } from "../Form/FormField";
 import { Icon } from "../Icons";
 import { cn } from "../../utlis/cn";
+import {
+  createInputContainerCva,
+  createInputDimensionCva,
+} from "../../utlis/inputVariants";
 
-const selectVariants = cva(
+const selectContainerVariants = createInputContainerCva(
   "ui:font-body ui:font-normal ui:outline-none ui:pl-3",
   {
-    variants: {
-      size: {
-        sm: "ui:input-width-sm",
-        md: "ui:input-width-md",
-        lg: "ui:input-width-lg",
-      },
-      width: {
-        auto: "ui:w-fit",
-        full: "ui:w-full",
-      },
-      state: {
-        default:
-          "ui:input-default ui:cursor-pointer ui:text-ui-fg ui:hover:not-focus-within:border-ui-primary/25 ui:focus-within:border-ui-primary",
-        error:
-          "ui:input-error ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-error",
-        success:
-          "ui:input-success ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-success",
-        disabled: "ui:input-disabled ui:cursor-not-allowed ui:text-ui-fg-muted",
-      },
-      surface: {
-        outline: "ui:border ui:rounded-sm ui:focus-within:border-2",
-        subtle: "ui:rounded-sm ui:focus-within:border-2",
-        underline: "ui:border-b-2 ui:focus:border-b-2",
-      },
+    state: {
+      default:
+        "ui:input-default ui:cursor-pointer ui:text-ui-fg ui:hover:not-focus-within:border-ui-primary/25 ui:focus-within:border-ui-primary",
     },
-    defaultVariants: {
-      size: "md",
-      state: "default",
-      surface: "outline",
-      width: "auto",
-    },
-    compoundVariants: [
-      {
-        state: ["default", "error", "success", "disabled"],
-        surface: ["underline", "outline"],
-        className: "ui:bg-none",
-      },
-      {
-        state: "default",
-        surface: "subtle",
-        className:
-          "ui:bg-ui-bg ui:hover:not-focus-within:bg-ui-primary/25 ui:focus-within:bg-ui-primary/50",
-      },
-      {
-        state: "error",
-        surface: "subtle",
-        className: "ui:bg-ui-error/25",
-      },
-      {
-        state: "success",
-        surface: "subtle",
-        className: "ui:bg-ui-success/25",
-      },
-      {
-        state: "disabled",
-        surface: "subtle",
-        className: "ui:bg-ui-disabled/25",
-      },
-    ],
   },
 );
 
+const selectDimensionVariants = createInputDimensionCva("ui:w-fit");
+
 export type SelectSize = NonNullable<
-  VariantProps<typeof selectVariants>["size"]
+  VariantProps<typeof selectDimensionVariants>["size"]
 >;
 
 export type SelectWidth = NonNullable<
-  VariantProps<typeof selectVariants>
+  VariantProps<typeof selectDimensionVariants>
 >["width"];
 
 export type SelectState = NonNullable<
-  VariantProps<typeof selectVariants>["state"]
+  VariantProps<typeof selectContainerVariants>["state"]
 >;
 
 export type SelectSurface = NonNullable<
-  VariantProps<typeof selectVariants>["surface"]
+  VariantProps<typeof selectContainerVariants>["surface"]
 >;
 
 export interface OptionProps {
@@ -134,11 +85,9 @@ function SelectComponent({
   const selectRef = useRef<HTMLSelectElement>(null);
 
   const style = useResponsiveVariantClass({
-    variants: selectVariants,
+    variants: selectDimensionVariants,
     base: {
       size,
-      state: stateStyle,
-      surface,
       width,
     },
     responsive,
@@ -173,7 +122,14 @@ function SelectComponent({
 
   return (
     <div
-      className={`ui:relative ui:flex ui:items-center ui:justify-between ui:group ${style}`}
+      className={cn(
+        "ui:relative ui:flex ui:items-center ui:justify-between ui:group",
+        selectContainerVariants({
+          state: stateStyle,
+          surface,
+        }),
+        style,
+      )}
       onClick={handleOpenSelect}
     >
       <select

@@ -15,6 +15,12 @@ import {
   LiaTimesSolid,
 } from "react-icons/lia";
 import type { IconVariant } from "./Icon";
+import {
+  FaCaretDown,
+  FaCaretLeft,
+  FaCaretRight,
+  FaCaretUp,
+} from "react-icons/fa";
 
 export const LIA_ICONS = {
   home: LiaHomeSolid,
@@ -29,6 +35,10 @@ export const LIA_ICONS = {
   angleLeft: LiaAngleLeftSolid,
   checkmark: LiaCheckSolid,
   close: LiaTimesSolid,
+  caretDownFilled: FaCaretDown,
+  caretLeftFilled: FaCaretLeft,
+  caretUpFilled: FaCaretUp,
+  caretRightFilled: FaCaretRight,
 } satisfies Record<string, IconType>;
 
 export type IconName = keyof typeof LIA_ICONS;

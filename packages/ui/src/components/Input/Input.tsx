@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import type { ResponsiveProp } from "../../types";
 import {
   createContext,
@@ -13,96 +13,30 @@ import { type ButtonProps } from "../Button";
 import { Text } from "../Text";
 import { Icon, type IconVariant } from "../Icons/Icon";
 import { isIconVariant } from "../../types/typeGuards";
+import {
+  createInputContainerCva,
+  createInputDimensionCva,
+} from "../../utlis/inputVariants";
 
-const inputContainerVariants = cva(
+const inputContainerVariants = createInputContainerCva(
   "ui:flex ui:justify-between ui:placeholder:text-ui-fg-muted ui:overflow-hidden",
   {
-    variants: {
-      state: {
-        default:
-          "ui:input-default ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-primary",
-        error:
-          "ui:input-error ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-error",
-        success:
-          "ui:input-success ui:cursor-pointer ui:text-ui-fg ui:focus-within:border-ui-success",
-        disabled: "ui:input-disabled ui:cursor-not-allowed ui:text-ui-fg-muted",
-      },
-      surface: {
-        outline: "ui:border ui:rounded-sm ui:focus-within:border-2",
-        subtle: "ui:rounded-sm ui:focus-within:border-2",
-        underline: "ui:border-b-2 ui:focus:border-b-2",
-      },
-    },
-    defaultVariants: {
-      state: "default",
-      surface: "outline",
-    },
     compoundVariants: [
       {
-        state: ["default", "error", "success", "disabled"],
-        surface: ["underline", "outline"],
-        className: "ui:bg-none",
-      },
-      {
-        state: "default",
-        surface: "underline",
-        className:
-          "ui:hover:not-focus-within:border-b-2 ui:hover:not-focus-within:border-ui-primary/50",
-      },
-      {
-        state: "default",
-        surface: "outline",
-        className:
-          "ui:hover:not-focus-within:border ui:hover:not-focus-within:border-ui-primary/50",
-      },
-      {
-        state: "default",
-        surface: "subtle",
-        className:
-          "ui:bg-ui-bg ui:hover:not-focus-within:bg-ui-primary/25 ui:focus-within:bg-ui-primary/50",
-      },
-      {
-        state: "default",
-        surface: "subtle",
-        className:
-          "ui:hover:not-focus-within:border-2 ui:hover:not-focus-within:border-ui-primary/50",
-      },
-      {
         state: "error",
-        surface: "subtle",
-        className: "ui:bg-ui-error/25",
+        surface: "outline",
+        className: "ui:border-ui-error",
       },
       {
         state: "success",
-        surface: "subtle",
-        className: "ui:bg-ui-success/25",
-      },
-      {
-        state: "disabled",
-        surface: "subtle",
-        className: "ui:bg-ui-disabled/25",
+        surface: "outline",
+        className: "ui:border-ui-success",
       },
     ],
   },
 );
 
-const inputComponentVariants = cva("", {
-  variants: {
-    size: {
-      sm: "ui:input-width-sm",
-      md: "ui:input-width-md",
-      lg: "ui:input-width-lg",
-    },
-    width: {
-      auto: "ui:w-auto",
-      full: "ui:w-full",
-    },
-  },
-  defaultVariants: {
-    size: "md",
-    width: "auto",
-  },
-});
+const inputComponentVariants = createInputDimensionCva();
 
 export type InputSize = NonNullable<
   VariantProps<typeof inputComponentVariants>["size"]

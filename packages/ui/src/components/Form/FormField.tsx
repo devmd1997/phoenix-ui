@@ -2,8 +2,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { createContext, useContext, type PropsWithChildren } from "react";
 import type { ResponsiveProp } from "../../types";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
+import { Text } from "../Text";
+import { Stack } from "../Stack";
 
-const formFieldVariants = cva("", {
+const formFieldVariants = cva("ui:flex", {
   variants: {
     size: {
       sm: "ui:gap-2",
@@ -11,7 +13,7 @@ const formFieldVariants = cva("", {
       lg: "ui:gap-4",
     },
     direction: {
-      horizontal: "ui:flex",
+      horizontal: "ui:flex-row",
       vertical: "ui:flex-col",
     },
   },
@@ -29,9 +31,9 @@ export type FormFieldContextValue = {
   required?: boolean;
 };
 
-export const FormFieldContext = createContext<FormFieldContextValue | undefined>(
-  undefined,
-);
+export const FormFieldContext = createContext<
+  FormFieldContextValue | undefined
+>(undefined);
 
 export function useFormFieldContext() {
   const context = useContext(FormFieldContext);
@@ -74,14 +76,30 @@ function FormFieldComponent({
       value={{ value, error, success, disabled, required }}
     >
       <fieldset className={styles} role={role}>
-        <label>
-          {label}
-          {required ? " *" : ""}
-        </label>
-        {description ? <p>{description}</p> : null}
-        {children}
-        {error ? <p>{error}</p> : null}
-        {!error && success ? <p>{success}</p> : null}
+        <Stack gap={"xs"} direction={"vertical"}>
+          <Text variant={"label-md"} tone={"default"}>
+            {label}
+            {required ? " *" : ""}
+          </Text>
+          {description ? (
+            <Text variant={"body-sm"} tone={"muted"}>
+              {description}
+            </Text>
+          ) : null}
+        </Stack>
+        <Stack gap={"xs"} direction={"vertical"}>
+          {children}
+          {error ? (
+            <Text variant={"body-sm"} tone={"error"}>
+              {error}
+            </Text>
+          ) : null}
+          {!error && success ? (
+            <Text variant={"body-sm"} tone={"success"}>
+              {success}
+            </Text>
+          ) : null}
+        </Stack>
       </fieldset>
     </FormFieldContext.Provider>
   );
