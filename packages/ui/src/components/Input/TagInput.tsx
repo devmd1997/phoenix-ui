@@ -12,7 +12,7 @@ import type { ResponsiveProp } from "../../types";
 import type { InputSize } from "./Input";
 import { useInputValue } from "../../hooks/useInputValue";
 import { cn } from "../../utlis/cn";
-import { Tag } from "../Tag/Tag";
+import { Tag, type TagComponentVariant } from "../Tag/Tag";
 import { Stack } from "../Stack";
 
 const tagInputContainerVariants = createInputContainerCva(
@@ -20,7 +20,7 @@ const tagInputContainerVariants = createInputContainerCva(
 );
 
 const tagInputComponentVariants = createInputDimensionCva(
-  "ui:flex-1 ui:min-w-32",
+  "ui:flex-1 ui:min-w-32 ui:placeholder:text-ui-fg-muted",
 );
 
 export type TagInputSize = NonNullable<
@@ -73,6 +73,7 @@ type TagInputContextValue = {
   inputRef: React.RefObject<HTMLInputElement | null>;
   size?: TagInputSize;
   width?: TagInputWidth;
+  surface?: TagInputSurface;
 };
 
 const TagInputContext = createContext<TagInputContextValue | undefined>(
@@ -131,6 +132,7 @@ function TagInputComponent({
         delimiter: props.delimiter,
         width,
         size,
+        surface,
         placeholder: props.placeholder,
       }}
     >
@@ -151,8 +153,8 @@ function TagInputComponent({
 
 TagInputComponent.Tags = function Tags() {
   const context = useTagInputContext();
-  const { values, removeValue, size, disabled } = context;
-
+  const { values, removeValue, size, disabled, surface } = context;
+  const tagVariant = getTagSurface(surface ?? "outline");
   return (
     <Stack
       gap="xs"
@@ -167,6 +169,8 @@ TagInputComponent.Tags = function Tags() {
           size={size}
           disabled={disabled}
           onClick={() => removeValue(index)}
+          variant={tagVariant}
+          closable={true}
         />
       ))}
     </Stack>
@@ -212,5 +216,16 @@ TagInputComponent.Input = function TagInput() {
     />
   );
 };
+
+function getTagSurface(surface: TagInputSurface): TagComponentVariant {
+  switch (surface) {
+    case "outline":
+      return "subtle";
+    case "subtle":
+      return "outline";
+    case "underline":
+      return "surface";
+  }
+}
 
 export const TagInput = memo(TagInputComponent);

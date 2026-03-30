@@ -3,19 +3,28 @@ import { cn } from "../../utlis/cn";
 import { Icon } from "../Icons";
 
 const tagComponentVariants = cva(
-  "ui:flex ui:flex-row ui:items-center ui:gap-1 ui:rounded-sm ui:border",
+  "ui:inline-flex ui:flex-row ui:w-fit ui:items-center ui:gap-1 ui:rounded-sm ui:border ui:cursor-pointer ui:disabled:cursor-not-allowed ui:disabled:pointer-events-none",
   {
     variants: {
       size: {
-        sm: "ui:p-1 ui:text-label-xs",
-        md: "ui:p-2 ui:text-body-sm",
-        lg: "ui:p-3 ui:text-body-md",
+        sm: "ui:p-1 ui:text-caption",
+        md: "ui:p-2 ui:text-label-xs",
+        lg: "ui:p-3 ui:text-label-sm",
       },
-      disabled: {
-        true: "ui:text-ui-fg-muted ui:bg-ui-disabled ui:border-ui-disabled ui:cursor-not-allowed",
-        false:
-          "ui:text-ui-fg ui:bg-ui-surface ui:border-ui-border ui:hover:bg-ui-primary/60 ui:hover:text-ui-fg-surface ui:hover:border-ui-primary ui:cursor-pointer",
+      variant: {
+        subtle:
+          "ui:text-ui-fg ui:bg-ui-bg ui:border-transparent ui:hover:bg-ui-primary/40 ui:disabled:bg-ui-disabled/40 ui:disabled:text-ui-fg-muted",
+        solid:
+          "ui:text-ui-fg ui:bg-ui-bg ui:border-transparent ui:hover:bg-ui-primary ui:hover:text-ui-fg-surface ui:disabled:bg-ui-disabled ui:disabled:text-ui-fg-muted",
+        outline:
+          "ui:text-ui-fg ui:bg-ui-surface ui:border-ui-border ui:hover:border-ui-primary ui:hover:text-ui-primary ui:disabled:border-ui-disabled ui:disabled:text-ui-fg-muted",
+        surface:
+          "ui:text-ui-fg ui:bg-ui-bg ui:border-ui-border ui:hover:bg-ui-primary/60 ui:hover:border-ui-primary/60 ui:hover:text-ui-fg-surface ui:disabled:border-ui-disabled",
       },
+    },
+    defaultVariants: {
+      size: "sm",
+      variant: "outline",
     },
   },
 );
@@ -24,6 +33,10 @@ export type TagComponentSize = NonNullable<
   VariantProps<typeof tagComponentVariants>
 >["size"];
 
+export type TagComponentVariant = NonNullable<
+  VariantProps<typeof tagComponentVariants>
+>["variant"];
+
 export interface TagProps {
   id: string | number;
   value: string;
@@ -31,25 +44,30 @@ export interface TagProps {
   size?: TagComponentSize;
   className?: string;
   as?: React.ElementType;
+  variant?: TagComponentVariant;
+  closable?: boolean;
   onClick?: () => void;
+  maxWidth?: string;
 }
 
 export function Tag(props: TagProps) {
   const style = tagComponentVariants({
     size: props.size,
-    disabled: props.disabled ?? false,
+    variant: props.variant,
   });
 
-  const Tag = (props.as ?? "span") as React.ElementType;
-
   return (
-    <Tag
+    <button
       key={props.id}
       className={cn(style, props.className)}
       onClick={props.onClick}
+      disabled={props.disabled}
+      style={{ maxWidth: props.maxWidth }}
     >
-      <span className="ui:text-inherit">{props.value}</span>
-      <Icon icon={"close"} size={props.size} color={"inherit"} />
-    </Tag>
+      <span className={cn("ui:text-inherit ui:min-w-0 ui:flex-1 ui:truncate")}>
+        {props.value}
+      </span>
+      {props.closable && <Icon icon={"close"} size={"md"} color={"inherit"} />}
+    </button>
   );
 }
