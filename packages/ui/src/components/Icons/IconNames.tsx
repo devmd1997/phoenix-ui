@@ -13,6 +13,8 @@ import {
   LiaAngleLeftSolid,
   LiaCheckSolid,
   LiaTimesSolid,
+  LiaEye,
+  LiaEyeSlash,
 } from "react-icons/lia";
 import type { IconVariant } from "./Icon";
 import {
@@ -39,6 +41,8 @@ export const LIA_ICONS = {
   caretLeftFilled: FaCaretLeft,
   caretUpFilled: FaCaretUp,
   caretRightFilled: FaCaretRight,
+  eye: LiaEye,
+  eyeSlash: LiaEyeSlash,
 } satisfies Record<string, IconType>;
 
 export type IconName = keyof typeof LIA_ICONS;

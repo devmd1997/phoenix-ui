@@ -1,13 +1,14 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type { Breakpoint, ResponsiveProp } from "../../types";
 import { responsiveClass } from "../../utlis/responsive";
+import { cn } from "../../utlis/cn";
 import { useOnHover } from "../../hooks";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { Icon } from "../Icons";
 import type { IconVariant } from "../Icons/Icon";
 
 export const buttonVariants = cva(
-  "ui:flex ui:justify-center ui:box-border ui:items-center ui:font-semibold ui:font-body ui:tracking-button",
+  "ui:flex ui:justify-center ui:items-center ui:font-medium ui:font-body ui:tracking-button",
   {
     variants: {
       size: {
@@ -277,6 +278,7 @@ export type ButtonDisabled = NonNullable<
 
 export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   label: string;
+  className?: string;
   iconLeft?: IconVariant;
   iconRight?: IconVariant;
   disabled?: React.ButtonHTMLAttributes<HTMLButtonElement>["disabled"];
@@ -312,6 +314,7 @@ function ButtonComponent({
   onHover,
   responsive,
   disabled = false,
+  className,
   ...props
 }: ButtonProps) {
   const { hoverHandlers } = useOnHover(onHover);
@@ -340,7 +343,7 @@ function ButtonComponent({
       classes.push(responsiveClass(responsiveMap));
     }
     return classes.join(" ");
-  }, [props, responsive]);
+  }, [disabled, props, responsive]);
 
   return (
     <ButtonContext.Provider
@@ -348,7 +351,7 @@ function ButtonComponent({
     >
       <button
         disabled={disabled}
-        className={styles}
+        className={cn(styles, className)}
         onClick={handleClick}
         onMouseEnter={hoverHandlers.onMouseEnter}
         onMouseLeave={hoverHandlers.onMouseLeave}

@@ -8,6 +8,7 @@ import { memo, useCallback, useEffect, useRef } from "react";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import { Stack } from "../Stack";
 import { Text } from "../Text";
+import { cn } from "../../utlis/cn";
 
 const checkBoxVariants = cva(
   "ui:rounded-sm ui:cursor-pointer ui:border ui:accent-ui-primary ui:indeterminate:bg-ui-primary ui:font-body ui:font-normal",
@@ -63,6 +64,7 @@ export interface CheckBoxProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "type" | "size" | "onChange"
 > {
+  className?: string;
   // Controlled checked state. Use with `onChange` for controlled usage.
   checked?: boolean;
   // Enables the visual "partially selected" checkbox state.
@@ -98,6 +100,7 @@ function CheckBoxComponent({
   responsive,
   size,
   checkboxPosition,
+  className,
   ...props
 }: CheckBoxProps) {
   const formFieldContext = useFormFieldContext();
@@ -147,45 +150,47 @@ function CheckBoxComponent({
   };
 
   return (
-    <Stack
-      direction="horizontal"
-      gap="sm"
-      spacing={{ p: "sm" }}
-      crossAxisAlignment="center"
-    >
-      <input
-        {...props}
-        checked={checked}
-        className={styles}
-        ref={checkBoxRef}
-        type="checkbox"
-        onChange={(e) => handleOnChange(e.target.checked)}
-      />
-      <Stack direction="vertical" gap="sm" spacing={{ p: "sm" }}>
-        {label && (
-          <Text
-            as="label"
-            variant={labelSize(size)}
-            tone="default"
-            responsive={{
-              md: {
-                variant: labelSize(size),
-              },
-              lg: {
-                variant: labelSize(size),
-              },
-            }}
-          >
-            {label}
-          </Text>
-        )}
-        {description && (
-          <Text as="p" variant={"body-sm"} tone="muted">
-            {description}
-          </Text>
-        )}
+    <div className={className}>
+      <Stack
+        direction="horizontal"
+        gap="sm"
+        spacing={{ p: "sm" }}
+        crossAxisAlignment="center"
+      >
+        <input
+          {...props}
+          checked={checked}
+          className={cn(styles)}
+          ref={checkBoxRef}
+          type="checkbox"
+          onChange={(e) => handleOnChange(e.target.checked)}
+        />
+        <Stack direction="vertical" gap="sm" spacing={{ p: "sm" }}>
+          {label && (
+            <Text
+              as="label"
+              variant={labelSize(size)}
+              tone="default"
+              responsive={{
+                md: {
+                  variant: labelSize(size),
+                },
+                lg: {
+                  variant: labelSize(size),
+                },
+              }}
+            >
+              {label}
+            </Text>
+          )}
+          {description && (
+            <Text as="p" variant={"body-sm"} tone="muted">
+              {description}
+            </Text>
+          )}
+        </Stack>
       </Stack>
-    </Stack>
+    </div>
   );
 }
 

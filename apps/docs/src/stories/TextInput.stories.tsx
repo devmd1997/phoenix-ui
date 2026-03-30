@@ -1,6 +1,7 @@
 import {
   Button,
   Input,
+  InputGroup,
   type InputSize,
   type InputSurface,
   type InputWidth,
@@ -53,7 +54,7 @@ const meta = {
     surface: "outline",
     type: "text",
   },
-  render: ({ onBlur, onFocus, ...args }) => {
+  render: ({ onBlur, onFocus, onChange, ...args }) => {
     const [value, setValue] = useState("");
 
     return (
@@ -61,7 +62,10 @@ const meta = {
         <Input
           {...args}
           value={value}
-          onChange={(event) => setValue(event.target.value)}
+          onChange={(event) => {
+            setValue(event.target.value);
+            onChange(event);
+          }}
           onFocus={onFocus ?? noop}
           onBlur={onBlur ?? noop}
         />
@@ -73,12 +77,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {
-  args: {
-    ...baseArgs,
-    value: "Hello",
-  },
-};
+export const Playground: Story = {};
 
 export const Sizes: Story = {
   render: () => (
@@ -173,51 +172,94 @@ export const Widths: Story = {
   ),
 };
 
-export const PrefixAndSuffix: Story = {
+export const InlineElements: Story = {
   render: () => (
     <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
-      <Input
-        value=""
-        onChange={noop}
-        onFocus={noop}
-        onBlur={noop}
-        placeholder="Price"
-        size="md"
-        width="full"
-        prefix="$"
-      />
-      <Input
-        value=""
-        onChange={noop}
-        onFocus={noop}
-        onBlur={noop}
-        placeholder="Search"
-        type="search"
-        size="md"
-        width="full"
-        suffix="⌘K"
-      />
-      <Input
-        value=""
-        onChange={noop}
-        onFocus={noop}
-        onBlur={noop}
-        placeholder="Search components"
-        type="search"
-        size="md"
-        width="full"
-        prefix="search"
-        suffix={
-          <Button
-            label="Go"
-            size="sm"
-            variant={"solid"}
-            intent={"primary"}
-            corners={"none"}
-            onClick={noop}
-          />
-        }
-      />
+      <InputGroup inlineElement={{ start: "search", end: "⌘K" }}>
+        <Input
+          value=""
+          onChange={noop}
+          onFocus={noop}
+          onBlur={noop}
+          placeholder="Search components"
+          type="search"
+          size="md"
+          width="full"
+        />
+      </InputGroup>
+      <InputGroup inlineElement={{ start: "$", end: "%" }}>
+        <Input
+          value=""
+          onChange={noop}
+          onFocus={noop}
+          onBlur={noop}
+          placeholder="Margin"
+          size="md"
+          width="full"
+        />
+      </InputGroup>
+    </div>
+  ),
+};
+
+export const AddOns: Story = {
+  render: () => (
+    <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
+      <InputGroup addOnElement={{ start: "@", end: ".com" }}>
+        <Input
+          value=""
+          onChange={noop}
+          onFocus={noop}
+          onBlur={noop}
+          placeholder="Username"
+          size="md"
+          width="full"
+        />
+      </InputGroup>
+      <InputGroup addOnElement={{ start: "$", end: "/" }}>
+        <Input
+          value=""
+          onChange={noop}
+          onFocus={noop}
+          onBlur={noop}
+          placeholder="Price"
+          size="md"
+          width="full"
+        />
+      </InputGroup>
+    </div>
+  ),
+};
+
+export const MixedComposition: Story = {
+  render: () => (
+    <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
+      <InputGroup
+        inlineElement={{
+          start: "search",
+          end: (
+            <Button
+              label="Go"
+              size="md"
+              variant="solid"
+              intent="primary"
+              corners="rounded"
+              onClick={noop}
+            />
+          ),
+        }}
+      >
+        <Input
+          value=""
+          onChange={noop}
+          onFocus={noop}
+          onBlur={noop}
+          placeholder="Search"
+          type="search"
+          size="md"
+          width="full"
+        />
+      </InputGroup>
     </div>
   ),
 };

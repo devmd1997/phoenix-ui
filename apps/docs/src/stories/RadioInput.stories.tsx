@@ -1,8 +1,13 @@
-import { RadioInput, type RadioInputSize } from "@phoenix-ui/ui";
+import {
+  RadioInput,
+  type RadioInputSize,
+  type RadioInputVariant,
+} from "@phoenix-ui/ui";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useState } from "react";
 
 const sizeOptions: RadioInputSize[] = ["sm", "md", "lg"];
+const variantOptions: RadioInputVariant[] = ["solid", "outline", "subtle"];
 const noop = () => undefined;
 
 const baseArgs = {
@@ -10,6 +15,7 @@ const baseArgs = {
   checked: false,
   onChange: noop,
   size: "md" as const,
+  variant: "outline" as const,
   label: "Email notifications",
   description: "Get product updates and account alerts.",
   responsive: { lg: "md" as const },
@@ -23,6 +29,7 @@ const meta = {
     value: { control: "text" },
     checked: { control: "boolean" },
     size: { control: { type: "select" }, options: sizeOptions },
+    variant: { control: { type: "select" }, options: variantOptions },
     disabled: { control: "boolean" },
     label: { control: "text" },
     description: { control: "text" },
@@ -77,9 +84,33 @@ export const Sizes: Story = {
           checked={size === "md"}
           onChange={noop}
           size={size}
+          variant="outline"
           label={`Radio ${size}`}
           description={`Size variant: ${size}`}
           responsive={{ lg: size }}
+        />
+      ))}
+    </div>
+  ),
+};
+
+export const Variants: Story = {
+  args: {
+    ...baseArgs,
+  },
+  render: () => (
+    <div className="ui:grid ui:grid-cols-1 ui:gap-4 ui:w-full ui:max-w-2xl">
+      {variantOptions.map((variant) => (
+        <RadioInput
+          key={variant}
+          value={variant}
+          checked={variant === "outline"}
+          onChange={noop}
+          size="md"
+          variant={variant}
+          label={`Radio ${variant}`}
+          description={`Variant coverage for ${variant}.`}
+          responsive={{ lg: "md" }}
         />
       ))}
     </div>
@@ -131,6 +162,7 @@ export const GroupSelectionExample: Story = {
             label={option.label}
             description={option.description}
             size="md"
+            variant="outline"
             responsive={{ lg: "md" }}
           />
         ))}

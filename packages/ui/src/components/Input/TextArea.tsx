@@ -14,6 +14,7 @@ import {
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import type { ResponsiveProp } from "../../types";
 import { Button, type ButtonProps } from "../Button";
+import { cn } from "../../utlis/cn";
 
 const textAreaVariants = cva("ui:flex-col ui:font-body ui:font-normal", {
   variants: {
@@ -134,6 +135,7 @@ function useTextAreaContext() {
  *   secondary action buttons under the textarea surface.
  */
 export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  className?: string;
   // Breakpoint overrides for `size` only.
   responsive?: ResponsiveProp<TextAreaSize>;
   // Controlled change event handler for textarea value updates.
@@ -170,6 +172,7 @@ function TextAreaComponent({
   width,
   border,
   footer,
+  className,
   ...props
 }: TextAreaProps) {
   const formFieldContext = useFormFieldContext();
@@ -212,7 +215,7 @@ function TextAreaComponent({
 
   return (
     <TextAreaContext.Provider value={{ footer }}>
-      <div className={styles}>
+      <div className={cn(styles, className)}>
         <textarea
           {...props}
           onChange={handleChange}

@@ -1,16 +1,14 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import {
-  useFormFieldContext,
-  type FormFieldContextValue,
-} from "../Form/FormField";
-import { memo, useCallback } from "react";
+import { useFormFieldContext } from "../Form/FormField";
+import { memo, useCallback, useId, useRef } from "react";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import type { ResponsiveProp } from "../../types";
 import { Stack } from "../Stack";
 import { Text } from "../Text";
+import { cn } from "../../utlis/cn";
 
 const radioInputVariants = cva(
-  "ui:border-2 ui:appearance-none ui:shrink-0 ui:w-5 ui:h-5 ui:rounded-full ui:focus:outline-none",
+  "ui:border-2 ui:appearance-none ui:shrink-0 ui:w-5 ui:h-5 ui:rounded-full ui:focus:outline-none ui:focus:ring-offset-0 ui:focus:ring-4",
   {
     variants: {
       size: {
@@ -18,14 +16,37 @@ const radioInputVariants = cva(
         md: "ui:scale-100",
         lg: "ui:scale-125",
       },
-      state: {
-        default:
-          "ui:bg-none ui:border-ui-primary ui:focus:ring-offset-0 ui:focus:ring-2 ui:focus:ring-ui-primary/80 ui:cursor-pointer",
-        disabled: "ui:border-ui-disabled ui:cursor-default",
+      variant: {
+        solid:
+          "ui:bg-none ui:border-ui-border ui:checked:bg-ui-primary ui:checked:border-ui-primary ui:checked:disabled:bg-ui-disabled ui:checked:disabled:border-ui-disabled ui:focus:ring-ui-primary/60",
+        outline:
+          "ui:bg-none ui:border-ui-border ui:checked:border-ui-primary ui:checked:bg-white ui:disabled:border-ui-disabled ui:focus:ring-ui-primary/60",
+        subtle:
+          "ui:bg-ui-primary/40 ui:border-transparent ui:disabled:bg-ui-disabled/40 ui:focus:ring-ui-primary/80",
+      },
+      disabled: {
+        false: "ui:cursor-pointer",
+        true: "ui:cursor-not-allowed",
       },
       defaultVaraints: {
         size: "md",
         state: "default",
+        variant: "outline",
+      },
+    },
+  },
+);
+
+const radioInnerCircleVariants = cva(
+  "ui:relative ui:z-10 ui:cursor-pointer ui:peer-disabled:cursor-not-allowed",
+  {
+    variants: {
+      variant: {
+        solid: "ui:bg-none ui:peer-checked:bg-ui-surface",
+        outline:
+          "ui:bg-none ui:peer-checked:bg-ui-primary ui:peer-checked:peer-disabled:bg-ui-disabled",
+        subtle:
+          "ui:bg-none ui:peer-checked:bg-ui-primary ui:peer-checked:peer-disabled:bg-ui-disabled",
       },
     },
   },
@@ -37,8 +58,11 @@ export type RadioInputSize = NonNullable<
 
 export type RadioInputState = NonNullable<
   VariantProps<typeof radioInputVariants>
->["state"];
+>["disabled"];
 
+export type RadioInputVariant = NonNullable<
+  VariantProps<typeof radioInputVariants>
+>["variant"];
 /**
  * Props for `RadioInput`, a token-driven radio control with optional label and description.
  *
@@ -75,6 +99,7 @@ export type RadioInputState = NonNullable<
  * ```
  */
 export interface RadioInputProps {
+  className?: string;
   /** Option value emitted by `onChange` when selected. */
   value: string;
   /** Controlled checked state for this option. */
@@ -88,9 +113,10 @@ export interface RadioInputProps {
   /** Disables interaction for this option. */
   disabled?: boolean;
   /** Called with this option's `value` when the user selects it. */
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   /** Breakpoint overrides for `size` using responsive token variants. */
   responsive?: ResponsiveProp<RadioInputSize>;
+  variant?: RadioInputVariant;
 }
 
 /**
@@ -108,29 +134,35 @@ function RadioInputComponent({
   disabled,
   responsive,
   onChange,
+  className,
+  variant,
 }: RadioInputProps) {
   const formFieldContext = useFormFieldContext();
-  const stateStyle = getRadioInputStateStyle(formFieldContext, disabled);
-  const handleOnChange = useCallback(
-    (inputValue: string) => {
-      if (onChange) {
-        onChange(inputValue);
+  const isDisabled = disabled || formFieldContext?.disabled;
+  const inputId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleOnChange = useCallback(() => {
+    if (onChange) {
+      if (!isDisabled) {
+        onChange(inputRef.current!.value);
       }
-    },
-    [onChange],
-  );
+    }
+  }, [onChange, isDisabled]);
 
   const styles = useResponsiveVariantClass({
     variants: radioInputVariants,
     base: {
-      state: stateStyle,
+      disabled: isDisabled,
       size,
+      variant,
     },
     responsive,
     toVariantProps: (responsiveSize: RadioInputSize) => ({
       size: responsiveSize,
     }),
   });
+
+  const innerCircleStyle = radioInnerCircleVariants({ variant });
 
   const labelSize = (radioSize?: RadioInputSize) => {
     switch (radioSize) {
@@ -147,61 +179,54 @@ function RadioInputComponent({
     radioSize === "lg" ? "ui:scale-125" : "";
 
   return (
-    <Stack
-      direction="horizontal"
-      gap="sm"
-      spacing={{ p: "sm" }}
-      crossAxisAlignment="center"
-    >
-      <div className="ui:grid ui:place-items-center ui:mt-1">
-        <input
-          type="radio"
-          value={value}
-          checked={checked}
-          disabled={disabled || formFieldContext?.disabled}
-          className={`ui:peer ui:col-start-1 ui:row-start-1 ${styles}`}
-          onChange={(e) => handleOnChange(e.target.value)}
-        />
-        <div
-          className={`phx-radio-inner-circle ui:peer-checked:bg-ui-primary ui:peer-checked:peer-disabled:bg-ui-disabled ${radioCircleSize(size)}`}
-        />
-      </div>
-      <Stack direction="vertical" gap="sm" spacing={{ p: "sm" }}>
-        {label && (
-          <Text
-            as="label"
-            variant={labelSize(size)}
-            tone="default"
-            responsive={{
-              md: {
-                variant: labelSize(size),
-              },
-              lg: {
-                variant: labelSize(size),
-              },
-            }}
-          >
-            {label}
-          </Text>
-        )}
-        {description && (
-          <Text as="p" variant={"body-sm"} tone={"muted"}>
-            {description}
-          </Text>
-        )}
+    <div className={className} onClick={handleOnChange}>
+      <Stack
+        direction="horizontal"
+        gap="sm"
+        spacing={{ p: "sm" }}
+        crossAxisAlignment="center"
+      >
+        <div className="ui:grid ui:place-items-center ui:mt-1">
+          <input
+            id={inputId}
+            ref={inputRef}
+            type="radio"
+            value={value}
+            checked={checked}
+            disabled={disabled || formFieldContext?.disabled}
+            className={cn(`ui:peer ui:col-start-1 ui:row-start-1`, styles)}
+          />
+          <div
+            className={`phx-radio-inner-circle ${innerCircleStyle} ${radioCircleSize(size)}`}
+          />
+        </div>
+        <Stack direction="vertical" gap="sm" spacing={{ p: "sm" }}>
+          {label && (
+            <Text
+              as="label"
+              variant={labelSize(size)}
+              tone="default"
+              responsive={{
+                md: {
+                  variant: labelSize(size),
+                },
+                lg: {
+                  variant: labelSize(size),
+                },
+              }}
+            >
+              {label}
+            </Text>
+          )}
+          {description && (
+            <Text as="p" variant={"body-sm"} tone={"muted"}>
+              {description}
+            </Text>
+          )}
+        </Stack>
       </Stack>
-    </Stack>
+    </div>
   );
-}
-
-function getRadioInputStateStyle(
-  context?: FormFieldContextValue,
-  disalbed?: boolean,
-): RadioInputState {
-  if (context?.disabled || disalbed) {
-    return "disabled";
-  }
-  return "default";
 }
 
 export const RadioInput = memo(RadioInputComponent);

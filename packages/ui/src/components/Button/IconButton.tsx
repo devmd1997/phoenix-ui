@@ -1,9 +1,11 @@
 import { useCallback } from "react";
 import { useOnHover } from "../../hooks";
+import { cn } from "../../utlis/cn";
 import { Icon, type IconVariant } from "../Icons/Icon";
 import { buttonVariants, type ButtonVariantType } from "./Button";
 
 export interface IconButtonProps extends ButtonVariantType {
+  className?: string;
   icon: IconVariant;
   onClick?: () => void;
   onHover?: () => void;
@@ -14,7 +16,8 @@ export function IconButton({
   icon,
   onClick,
   onHover,
-  disabled,
+  disabled = false,
+  className,
   ...styleProps
 }: IconButtonProps) {
   const { hoverHandlers } = useOnHover(onHover);
@@ -28,7 +31,7 @@ export function IconButton({
   const style = buttonVariants({ ...styleProps, disabled: disabled });
   return (
     <button
-      className={style}
+      className={cn(style, className)}
       onClick={handleClick}
       onMouseLeave={hoverHandlers.onMouseEnter}
       onMouseEnter={hoverHandlers.onMouseEnter}

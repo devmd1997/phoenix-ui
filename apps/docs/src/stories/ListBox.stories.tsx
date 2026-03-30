@@ -6,14 +6,17 @@ const widthOptions: ListBoxWidth[] = ["auto", "full"];
 
 const baseItems = [
   {
+    id: "react",
     label: "React",
     value: "react",
   },
   {
+    id: "vue",
     label: "Vue",
     value: "vue",
   },
   {
+    id: "svelete",
     label: "Svelte",
     value: "svelte",
   },
@@ -21,24 +24,28 @@ const baseItems = [
 
 const itemsWithIcons = [
   {
+    id: "home",
     label: "Home",
     value: "home",
     description: "Primary landing view.",
     iconLeft: "home" as const,
   },
   {
+    id: "profile",
     label: "Profile",
     value: "profile",
     description: "Account details and preferences.",
     iconLeft: "user" as const,
   },
   {
+    id: "search",
     label: "Search",
     value: "search",
     description: "Find components and docs.",
     iconLeft: "search" as const,
   },
   {
+    id: "alerts",
     label: "Alerts",
     value: "alerts",
     description: "Recent activity and updates.",
@@ -106,6 +113,7 @@ export const WithDisabledItem: Story = {
     items: [
       ...baseItems,
       {
+        id: "solid",
         label: "Solid",
         value: "solid",
         description: "Unavailable in this example.",
@@ -127,18 +135,21 @@ export const NavigationItems: Story = {
       <ListBox
         items={[
           {
+            id: "dashboard",
             label: "Dashboard",
             value: "dashboard",
             description: "Overview and quick actions.",
             iconLeft: "home",
           },
           {
+            id: "people",
             label: "People",
             value: "people",
             description: "Users, teams, and access.",
             iconLeft: "user",
           },
           {
+            id: "notifications",
             label: "Notifications",
             value: "notifications",
             description: "Alerts and delivery settings.",
@@ -158,24 +169,28 @@ export const MultiSelect: Story = {
   args: {
     items: [
       {
+        id: "home",
         label: "Home",
         value: "home",
         description: "Primary navigation and overview.",
         iconLeft: "home",
       },
       {
+        id: "profile",
         label: "Profile",
         value: "profile",
         description: "Identity and account settings.",
         iconLeft: "user",
       },
       {
+        id: "search",
         label: "Search",
         value: "search",
         description: "Quick access to docs and components.",
         iconLeft: "search",
       },
       {
+        id: "notification",
         label: "Notifications",
         value: "notifications",
         description: "Alerts and status changes.",

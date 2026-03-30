@@ -4,10 +4,11 @@
  * Allows default text input, email, and password
  */
 
-import { forwardRef, type PropsWithChildren } from "react";
-import { Input, type InputProps } from "./Input";
-import { Icon } from "../Icons";
+import { forwardRef } from "react";
 import { Button } from "../Button";
+import { Icon } from "../Icons";
+import { Input, type InputProps } from "./Input";
+import { InputGroup, type InputAddOnElement } from "./InputGroup";
 
 type TextInputType = "text" | "email" | "password" | "search" | "url" | "tel";
 export type TextInputPrefixPreset = "searchIcon" | "atSign" | "dollar";
@@ -18,64 +19,44 @@ export type TextInputSuffixPreset =
 
 export interface TextInputProps extends Omit<InputProps, "type"> {
   type?: TextInputType;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
   prefixPreset?: TextInputPrefixPreset;
   suffixPreset?: TextInputSuffixPreset;
   suffixButtonLabel?: string;
   onSuffixButtonClick?: () => void;
 }
 
-function getPrefixPreset(prefixPreset: TextInputPrefixPreset | undefined) {
-  function getPreset() {
-    switch (prefixPreset) {
-      case "searchIcon":
-        return <Icon icon="search" color="muted" size="lg" />;
-      case "atSign":
-        return <span className="ui:text-ui-fg-muted">@</span>;
-      case "dollar":
-        return <span className="ui:text-ui-fg-muted">$</span>;
-      default:
-        return undefined;
-    }
+function getPrefixInlinePreset(prefixPreset: TextInputPrefixPreset | undefined) {
+  switch (prefixPreset) {
+    case "searchIcon":
+      return <Icon icon="search" color="muted" size="lg" />;
+    default:
+      return undefined;
   }
-
-  const preset = getPreset();
-  return (
-    preset && (
-      <div className="ui:flex ui:justify-center ui:items-center ui:px-3">
-        {preset}
-      </div>
-    )
-  );
 }
 
-const SuffixWrapper = ({ children }: PropsWithChildren) => {
-  return (
-    <div className="ui:flex ui:justify-center ui:items-center ui:p-3 ui:bg-white ui:text-ui-fg-muted ui:min-w-[20%] ui:text-center">
-      {children}
-    </div>
-  );
-};
+function getPrefixAddOnPreset(
+  prefixPreset: TextInputPrefixPreset | undefined,
+): InputAddOnElement["start"] {
+  switch (prefixPreset) {
+    case "atSign":
+      return "@";
+    case "dollar":
+      return "$";
+    default:
+      return undefined;
+  }
+}
 
-function getSuffixPreset(
+function getSuffixAddOnPreset(
   suffixPreset: TextInputSuffixPreset | undefined,
-  suffixButtonLabel: string | undefined,
-  onSuffixButtonClick: (() => void) | undefined,
-) {
+): InputAddOnElement["end"] {
   switch (suffixPreset) {
     case "domainDotCom":
-      return <SuffixWrapper>.com</SuffixWrapper>;
+      return ".com";
     case "shortcutSlash":
-      return <SuffixWrapper>/</SuffixWrapper>;
-    case "goButton":
-      return (
-        <Button
-          label={suffixButtonLabel ?? "Go"}
-          size="md"
-          intent="primary"
-          onClick={onSuffixButtonClick}
-          corners="none"
-        />
-      );
+      return "/";
     default:
       return undefined;
   }
@@ -95,19 +76,30 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref,
   ) => {
-    const resolvedPrefix = prefix ?? getPrefixPreset(prefixPreset);
-    const resolvedSuffix =
-      suffix ??
-      getSuffixPreset(suffixPreset, suffixButtonLabel, onSuffixButtonClick);
+    const inlineElement = {
+      start: prefix ?? getPrefixInlinePreset(prefixPreset),
+      end:
+        suffix ??
+        (suffixPreset === "goButton" ? (
+          <Button
+            label={suffixButtonLabel ?? "Go"}
+            size="md"
+            intent="primary"
+            onClick={onSuffixButtonClick}
+            corners="none"
+          />
+        ) : undefined),
+    };
+
+    const addOnElement = {
+      start: getPrefixAddOnPreset(prefixPreset),
+      end: getSuffixAddOnPreset(suffixPreset),
+    };
 
     return (
-      <Input
-        ref={ref}
-        type={type}
-        prefix={resolvedPrefix}
-        suffix={resolvedSuffix}
-        {...props}
-      />
+      <InputGroup inlineElement={inlineElement} addOnElement={addOnElement}>
+        <Input ref={ref} type={type} {...props} />
+      </InputGroup>
     );
   },
 );

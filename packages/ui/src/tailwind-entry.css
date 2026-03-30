@@ -6,7 +6,7 @@
   --ui-primary: 253 92 38; /* #FD5C26 */
   --ui-pramry-400: 251 128 76; /* #FD804C */
   --ui-primary-hover: 206 0 0; /* #CE0000 */
-  --ui-secondary: 253 199 38; /* #FDC726 */
+  --ui-secondary: 100 116 139; /* #FDC726 */
   --ui-secondary-hover: 154 93 0; /* #9A5D00 */
   --ui-accent: 92 38 253; /* #5C26FD */
 
@@ -416,6 +416,12 @@
 
 @custom-variant toggled {
   &:where([data-toggled="true"], [data-toggled="true"] *) {
+    @slot;
+  }
+}
+
+@custom-variant selected {
+  &:where([data-selected="true"], [data-selected="true"] *) {
     @slot;
   }
 }
