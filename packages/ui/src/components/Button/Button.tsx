@@ -265,12 +265,12 @@ export type ButtonSize = NonNullable<
 >;
 
 export type ButtonVariant = NonNullable<
-  VariantProps<typeof buttonVariants>["intent"]
->;
+  VariantProps<typeof buttonVariants>
+>["intent"];
 
 export type ButtonType = NonNullable<
-  VariantProps<typeof buttonVariants>["variant"]
->;
+  VariantProps<typeof buttonVariants>
+>["variant"];
 
 export type ButtonDisabled = NonNullable<
   VariantProps<typeof buttonVariants>["disabled"]

@@ -317,7 +317,8 @@
   color: rgb(var(--ui-fg-surface));
   border: 2px solid transparent;
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled),
+  [data-selected="true"]:not(:disabled) {
     background-color: --alpha(--value(--color-*) / 80%);
   }
 }
@@ -414,6 +415,12 @@
   z-index: var(--ui-z-modal);
 }
 
+@utility seperator-* {
+  height: 1px;
+  width: 100%;
+  background-color: --value(--color-*);
+}
+
 @custom-variant toggled {
   &:where([data-toggled="true"], [data-toggled="true"] *) {
     @slot;
@@ -422,6 +429,12 @@
 
 @custom-variant selected {
   &:where([data-selected="true"], [data-selected="true"] *) {
+    @slot;
+  }
+}
+
+@custom-variant active {
+  &:where([data-active="true"], [data-active="true"] *) {
     @slot;
   }
 }

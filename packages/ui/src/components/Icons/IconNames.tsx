@@ -15,6 +15,12 @@ import {
   LiaTimesSolid,
   LiaEye,
   LiaEyeSlash,
+  LiaCopy,
+  LiaInfoCircleSolid,
+  LiaExclamationCircleSolid,
+  LiaCheckCircle,
+  LiaEllipsisVSolid,
+  LiaEllipsisHSolid,
 } from "react-icons/lia";
 import type { IconVariant } from "./Icon";
 import {
@@ -43,6 +49,12 @@ export const LIA_ICONS = {
   caretRightFilled: FaCaretRight,
   eye: LiaEye,
   eyeSlash: LiaEyeSlash,
+  copy: LiaCopy,
+  info: LiaInfoCircleSolid,
+  warning: LiaExclamationCircleSolid,
+  success: LiaCheckCircle,
+  ellipsisVertical: LiaEllipsisVSolid,
+  ellipsisHorizontal: LiaEllipsisHSolid,
 } satisfies Record<string, IconType>;
 
 export type IconName = keyof typeof LIA_ICONS;
