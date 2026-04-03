@@ -2,8 +2,9 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { Breakpoint, ResponsiveProp } from "../../types";
 import { responsiveClass } from "../../utlis/responsive";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 import { useOnHover } from "../../hooks";
-import { createContext, memo, useCallback, useContext, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { Icon } from "../Icons";
 import type { IconVariant } from "../Icons/Icon";
 
@@ -296,15 +297,9 @@ type ButtonContext = {
   disabled?: React.ButtonHTMLAttributes<HTMLButtonElement>["disabled"];
   defaultStyle: VariantProps<typeof buttonVariants>;
 };
-const ButtonContext = createContext<ButtonContext | undefined>(undefined);
-
-function useButtonContext() {
-  const context = useContext(ButtonContext);
-  if (context === undefined) {
-    throw new Error("useButtonContext must be used within a Button");
-  }
-  return context;
-}
+const [ButtonContext, useButtonContext] = createRequiredContext<ButtonContext>(
+  "useButtonContext must be used within a Button",
+);
 
 function ButtonComponent({
   label,

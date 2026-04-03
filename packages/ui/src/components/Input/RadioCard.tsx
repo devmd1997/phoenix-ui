@@ -4,14 +4,13 @@ import { Stack, type StackDirection } from "../Stack/Stack";
 import type { ResponsiveProp } from "../../types";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import {
-  createContext,
   memo,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 import { Text, type TextVariant } from "../Text";
 import { RadioInput, type RadioInputVariant } from "./RadioInput";
 
@@ -48,19 +47,10 @@ export type RadioCardContainerVariant = NonNullable<
 
 type RadioCardContextType = RadioCardProps;
 
-const RadioCardContext = createContext<RadioCardContextType | undefined>(
-  undefined,
+const [RadioCardContext, useRadioCardContext] =
+  createRequiredContext<RadioCardContextType>(
+    "useRadioCardContext must be used within a RadioCard Component",
 );
-
-const useRadioCardContext = () => {
-  const context = useContext(RadioCardContext);
-  if (context === undefined) {
-    throw new Error(
-      "useRadioCardContext must be used within a RadioCard Component",
-    );
-  }
-  return context;
-};
 
 export interface RadioCardProps {
   icon?: IconVariant;

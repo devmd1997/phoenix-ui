@@ -3,7 +3,7 @@ import {
   createInputContainerCva,
   createInputDimensionCva,
 } from "../../utlis/inputVariants";
-import { createContext, memo, useContext, useRef } from "react";
+import { memo, useContext, useRef } from "react";
 import { useTagValues } from "../../hooks/useTagValues";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import { FormFieldContext } from "../Form/FormField";
@@ -12,6 +12,7 @@ import type { ResponsiveProp } from "../../types";
 import type { InputSize } from "./Input";
 import { useInputValue } from "../../hooks/useInputValue";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 import { Tag, type TagComponentVariant } from "../Tag/Tag";
 import { Stack } from "../Stack";
 
@@ -76,19 +77,10 @@ type TagInputContextValue = {
   surface?: TagInputSurface;
 };
 
-const TagInputContext = createContext<TagInputContextValue | undefined>(
-  undefined,
+const [TagInputContext, useTagInputContext] =
+  createRequiredContext<TagInputContextValue>(
+    "useTagInputContext must be used within a TagInput component",
 );
-
-const useTagInputContext = () => {
-  const context = useContext(TagInputContext);
-  if (!context) {
-    throw new Error(
-      "useTagInputContext must be used within a TagInput component",
-    );
-  }
-  return context;
-};
 
 function TagInputComponent({
   size,

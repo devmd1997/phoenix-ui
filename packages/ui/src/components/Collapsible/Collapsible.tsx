@@ -1,8 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import {
-  createContext,
   memo,
-  useContext,
   useRef,
   type PropsWithChildren,
 } from "react";
@@ -11,6 +9,7 @@ import {
   type OpenChangeDetails,
 } from "../../hooks/useCollapsible";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 import { Icon } from "../Icons";
 
 const collapsibleContainer = cva("ui:flex ui:flex-col ui:p-2 ui:gap-1", {
@@ -73,19 +72,10 @@ type CollapsibleContextValue = Omit<
   contentHeight?: number;
 };
 
-const CollapsibleContext = createContext<CollapsibleContextValue | undefined>(
-  undefined,
+const [CollapsibleContext, useCollapsibleContext] =
+  createRequiredContext<CollapsibleContextValue>(
+    "useCollapsibleContext can only be used within a Collapsible Component",
 );
-
-const useCollapsibleContext = () => {
-  const context = useContext(CollapsibleContext);
-  if (!context) {
-    throw new Error(
-      "useCollapsibleContext can only be used within a Collapsible Component",
-    );
-  }
-  return context;
-};
 
 function CollapsibleComponent({
   defaultOpen,

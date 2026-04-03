@@ -1,9 +1,10 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { Stack, type StackProps } from "../Stack";
-import { createContext, memo, useContext, type PropsWithChildren } from "react";
+import { memo, type PropsWithChildren } from "react";
 import type { ResponsiveProp } from "../../types";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import { Text } from "../Text";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 
 const cardContainerVariant = cva("", {
   variants: {
@@ -72,15 +73,9 @@ type CardContextValue = {
   children?: React.ReactNode;
 };
 
-const CardContext = createContext<CardContextValue | undefined>(undefined);
-
-function useCardContext() {
-  const context = useContext(CardContext);
-  if (!context) {
-    throw new Error("Card Context must be used within a Card Component");
-  }
-  return context;
-}
+const [CardContext, useCardContext] = createRequiredContext<CardContextValue>(
+  "Card Context must be used within a Card Component",
+);
 
 function CardComponent({
   content,

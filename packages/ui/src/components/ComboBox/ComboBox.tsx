@@ -4,16 +4,15 @@ import { type ListItemProps, type ListBoxProps, ListBox } from "./ListBox";
 import type { ResponsiveProp } from "../../types";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import React, {
-  createContext,
   memo,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
   type RefObject,
 } from "react";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { Text } from "../Text";
 import {
@@ -76,17 +75,10 @@ type ComboBoxContextValue = {
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ComboBoxContext = createContext<ComboBoxContextValue | undefined>(
-  undefined,
+const [ComboBoxContext, useComboBoxContext] =
+  createRequiredContext<ComboBoxContextValue>(
+    "comboBoxContext must be used within a ComboBoxComponent",
 );
-
-function useComboBoxContext() {
-  const context = useContext(ComboBoxContext);
-  if (!context) {
-    throw new Error("comboBoxContext must be used within a ComboBoxComponent");
-  }
-  return context;
-}
 
 function ComboBoxComponent({
   placeholder,

@@ -1,14 +1,13 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import {
-  createContext,
   memo,
   useCallback,
-  useContext,
   useEffect,
   useState,
   type PropsWithChildren,
 } from "react";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 import { Text, type TextVariant } from "../Text";
 import { Stack } from "../Stack";
 import { Icon } from "../Icons";
@@ -54,15 +53,10 @@ type ModalContextType = {
   size?: ModalSize;
 };
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
-
-const useModalContext = () => {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw Error("Component can only be used in a ModalComponent");
-  }
-  return context;
-};
+const [ModalContext, useModalContext] =
+  createRequiredContext<ModalContextType>(
+    "Component can only be used in a ModalComponent",
+  );
 
 function ModalComponent({
   title,

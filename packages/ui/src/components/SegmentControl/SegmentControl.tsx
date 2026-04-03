@@ -2,15 +2,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { ResponsiveProp } from "../../types";
 import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import {
-  createContext,
   memo,
   useCallback,
-  useContext,
   useId,
   useState,
 } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 
 const segmentControlGroupVariants = cva(
   "ui:flex ui:flex-row ui:justify-between ui:items-center ui:gap-1 ui:font-semibold ui:font-body ui:tracking-button ui:rounded-sm ui:px-2 ui:border ui:border-ui-border",
@@ -57,19 +56,10 @@ type SegmentControlContextValue = {
   disabled?: boolean;
 };
 
-const SegmentControlContext = createContext<
-  SegmentControlContextValue | undefined
->(undefined);
-
-const useSegmentControlContext = () => {
-  const context = useContext(SegmentControlContext);
-  if (!context) {
-    throw new Error(
-      "segmentControlContext must be used within a SegemntControlGroup",
-    );
-  }
-  return context;
-};
+const [SegmentControlContext, useSegmentControlContext] =
+  createRequiredContext<SegmentControlContextValue>(
+    "segmentControlContext must be used within a SegemntControlGroup",
+  );
 
 export interface SegmentControlGroupProps {
   size?: SegmentControlGroupSize;

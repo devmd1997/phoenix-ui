@@ -1,9 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import {
-  createContext,
   memo,
   useCallback,
-  useContext,
   type ForwardedRef,
   type TextareaHTMLAttributes,
 } from "react";
@@ -15,6 +13,7 @@ import { useResponsiveVariantClass } from "../../hooks/useResponsiveVariants";
 import type { ResponsiveProp } from "../../types";
 import { Button, type ButtonProps } from "../Button";
 import { cn } from "../../utlis/cn";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 
 const textAreaVariants = cva("ui:flex-col ui:font-body ui:font-normal", {
   variants: {
@@ -110,17 +109,10 @@ type TextAreaContextValue = {
   footer?: TextAreaFooterProps;
 };
 
-const TextAreaContext = createContext<TextAreaContextValue | undefined>(
-  undefined,
+const [TextAreaContext, useTextAreaContext] =
+  createRequiredContext<TextAreaContextValue>(
+    "useTextAreaContext must be used within a TextArea",
 );
-
-function useTextAreaContext() {
-  const context = useContext(TextAreaContext);
-  if (context === undefined) {
-    throw new Error("useTextAreaContext must be used within a TextArea");
-  }
-  return context;
-}
 
 /**
  * Contract:

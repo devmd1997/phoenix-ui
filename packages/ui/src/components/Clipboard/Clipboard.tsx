@@ -1,7 +1,8 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import { Icon } from "../Icons";
 import type { IconSize, IconVariant } from "../Icons/Icon";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 
 const clipboardComponentVariants = cva(
   "ui:inline-flex ui:gap-1 ui:items-center ui:cursor-pointer ui:disabled:cursor-not-allowed ui:disabled:pointer-events-none ui:toggled:pointer-events-none",
@@ -38,19 +39,10 @@ type ClipboardContextValue = {
   label?: string;
 };
 
-const ClipboardContext = createContext<ClipboardContextValue | undefined>(
-  undefined,
+const [ClipboardContext, useClipboardCotext] =
+  createRequiredContext<ClipboardContextValue>(
+    "useClipboardContext must be used within a Clipboard component",
 );
-
-const useClipboardCotext = () => {
-  const context = useContext(ClipboardContext);
-  if (!context) {
-    throw new Error(
-      "useClipboardContext must be used within a Clipboard component",
-    );
-  }
-  return context;
-};
 
 export function Clipboard({
   timeout = 3000,

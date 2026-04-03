@@ -5,14 +5,13 @@ import { Stack, type StackDirection } from "../Stack/Stack";
 import { Text } from "../Text";
 import { cn } from "../../utlis/cn";
 import {
-  createContext,
   memo,
   useCallback,
-  useContext,
   useEffect,
   useState,
 } from "react";
 import { Icon, type IconVariant } from "../Icons/Icon";
+import { createRequiredContext } from "../../utlis/createRequiredContext";
 
 const listBoxVariants = cva(
   "ui:rounded-sm ui:appearance-none ui:border ui:border-ui-border ui:overflow-y-auto ui:bg-white",
@@ -59,17 +58,10 @@ type ListItemContextValue = {
   multiselect?: boolean;
 };
 
-const ListItemContext = createContext<ListItemContextValue | undefined>(
-  undefined,
+const [ListItemContext, useListItemContext] =
+  createRequiredContext<ListItemContextValue>(
+    "useListItemContext must be used within a ListItem",
 );
-
-function useListItemContext() {
-  const context = useContext(ListItemContext);
-  if (context === undefined) {
-    throw new Error("useListItemContext must be used within a ListItem");
-  }
-  return context;
-}
 
 export interface ListItemProps {
   id: string;
